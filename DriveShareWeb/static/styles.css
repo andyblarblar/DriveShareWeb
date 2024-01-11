@@ -1,0 +1,56 @@
+/* Top navbar */
+#header {
+    width: 100%;
+    display: inline-flex;
+    background-color: #bbbbbb;
+}
+
+#nav-boxes {
+    inline-size: 30%;
+    justify-content: flex-start;
+    display: inline-flex;
+    /* Causes boxes to stick to each side*/
+    flex: 1;
+}
+
+.nav-box {
+    text-decoration: none;
+    color: #000000;
+}
+
+.nav-box:hover {
+    filter: brightness(85%);
+    transition-duration: 0.2s;
+}
+
+/**TODO update**/
+#assign-box {
+    background-color: #F6E96F;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#logout {
+    inline-size: 69%;
+    display: inline-flex;
+    justify-content: end;
+}
+
+#logout-icon-holder {
+    padding: 10px;
+    background-color: crimson;
+}
+
+/* Login form */
+#login-form-container {
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-top: 14%;
+    margin-bottom: 25%;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+    border: solid 1px;
+    border-radius: 30px;
+}
