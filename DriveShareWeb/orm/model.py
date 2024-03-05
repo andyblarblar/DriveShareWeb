@@ -1,5 +1,6 @@
 import datetime
-from typing import Optional
+from functools import reduce
+from typing import Optional, Sequence
 
 from sqlmodel import SQLModel, Field
 from sqlalchemy import PrimaryKeyConstraint
@@ -59,6 +60,9 @@ class AvailableDateRange(SQLModel, table=True):
     start_date: datetime.date
     end_date: datetime.date
 
+    def to_ranges(self) -> list[tuple[datetime.date, datetime.date]]:
+        return [(self.start_date, self.end_date)]
+
 
 ## DTOs not in DB ##
 class NewListingDTO(BaseModel):
@@ -72,3 +76,13 @@ class NewListingDTO(BaseModel):
     """Price per day"""
     date_ranges: list[tuple[datetime.date, datetime.date]]
     """List of (start, end) dates this listing is valid for"""
+
+
+class ExistingListingDTO(NewListingDTO):
+    id: int
+    owner: str
+
+    @staticmethod
+    def from_orm_parts(listing: Listing, ranges: Sequence[AvailableDateRange]):
+        return ExistingListingDTO(**listing.model_dump(),
+                                  date_ranges=reduce(lambda x, y: x + y, (r.to_ranges() for r in ranges)))
