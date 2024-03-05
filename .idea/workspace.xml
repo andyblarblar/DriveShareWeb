@@ -4,26 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2747fe08-a159-4776-9f11-eeca956aa97f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/DriveShareWeb.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/deps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/orm/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/orm/connect.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/orm/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/security/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/security/password.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/security/token.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/static/home.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/static/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DriveShareWeb/static/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    <list default="true" id="2747fe08-a159-4776-9f11-eeca956aa97f" name="Changes" comment="init">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,29 +22,29 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2amat3WwEZirxXP9LhvL5pMLR06" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/andy/PycharmProjects/DriveShareWeb",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/andy/PycharmProjects/DriveShareWeb&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -74,7 +56,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-50da183f06c8-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13135.95" />
+        <option value="bundled-python-sdk-d68999036c7f-b11f5e8da5ad-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.14475.56" />
       </set>
     </attachedChunks>
   </component>
@@ -86,11 +68,30 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1704926420054</updated>
-      <workItem from="1704926421847" duration="7341000" />
+      <workItem from="1704926421847" duration="8009000" />
+      <workItem from="1705010338069" duration="419000" />
+      <workItem from="1705010790356" duration="601000" />
+      <workItem from="1705261219938" duration="1345000" />
+      <workItem from="1705538162806" duration="10000" />
+      <workItem from="1709414788320" duration="487000" />
+      <workItem from="1709587678347" duration="8000" />
     </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1704940693757</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1704940693757</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
 </project>
