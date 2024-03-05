@@ -27,7 +27,7 @@ def prepare_db():
             sess.add(l1)
             sess.commit()
 
-            d1 = AvailableDateRange(listing_id=l1.id, start_date=datetime.datetime(2024, 5, 22),
-                                    end_date=datetime.datetime(2024, 8, 12))
+            d1 = AvailableDateRange(listing_id=l1.id, start_date=datetime.date(2024, 5, 22),
+                                    end_date=datetime.date(2024, 8, 12))
             sess.add(d1)
             sess.commit()

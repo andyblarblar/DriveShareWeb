@@ -4,13 +4,15 @@ from fastapi import FastAPI, Depends, HTTPException, Response, Request, Query, F
 from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
+from sqlmodel import Session
 from starlette import status
 from starlette.responses import RedirectResponse
 
-from DriveShareWeb.deps import ensure_user_not_logged_in, get_current_user
+from DriveShareWeb.deps import ensure_user_not_logged_in, get_current_user, db_session
 from DriveShareWeb.orm.connect import prepare_db
 from DriveShareWeb.security import password
 from DriveShareWeb.security.token import Token, create_access_token
+from DriveShareWeb.orm.model import Account, AccountDTO, NewListingDTO, Listing, AvailableDateRange
 
 app = FastAPI()
 
@@ -38,6 +40,27 @@ async def login(not_login=Depends(ensure_user_not_logged_in)):
         html = f.readlines()
 
     return HTMLResponse(content=str.join("", html), status_code=200)
+
+
+# CRUD endpoints
+
+@app.post("/listing", response_model=Listing, status_code=200)
+async def create_listing(listing: NewListingDTO, account: Annotated[AccountDTO, Depends(get_current_user)],
+                         sess: Annotated[Session, Depends(db_session)]):
+    """Create a new listing, alongside its valid date ranges."""
+    # Add IDs to models
+    db_listing = Listing(owner=account.email, model=listing.model, year=listing.year, mileage=listing.mileage,
+                         price=listing.price, location=listing.location)
+    sess.add(db_listing)
+    sess.commit()
+
+    db_dates = [AvailableDateRange(listing_id=db_listing.id, start_date=d[0], end_date=d[1]) for d in
+                listing.date_ranges]
+    sess.add_all(db_dates)
+
+    sess.commit()
+
+    return db_listing
 
 
 # Login
