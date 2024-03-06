@@ -1,3 +1,4 @@
+from functools import reduce
 from typing import Annotated
 
 from fastapi import FastAPI, Depends, HTTPException, Response, Request, Query, Form
@@ -12,7 +13,9 @@ from DriveShareWeb.deps import ensure_user_not_logged_in, get_current_user, db_s
 from DriveShareWeb.orm.connect import prepare_db
 from DriveShareWeb.security import password
 from DriveShareWeb.security.token import Token, create_access_token
-from DriveShareWeb.orm.model import Account, AccountDTO, NewListingDTO, Listing, AvailableDateRange, ExistingListingDTO
+from DriveShareWeb.orm.model import Account, AccountDTO, NewListingDTO, Listing, AvailableDateRange, ExistingListingDTO, \
+    ReservationDTO, Reservation
+from DriveShareWeb.utils import TimeRange
 
 app = FastAPI()
 
@@ -138,7 +141,88 @@ async def update_listing(listing: ExistingListingDTO, account: Annotated[Account
     sess.commit()
 
 
-# TODO reservation
+@app.get("/reservation", response_model=list[Reservation])
+async def get_own_reservations(account: Annotated[AccountDTO, Depends(get_current_user)],
+                               sess: Annotated[Session, Depends(db_session)]):
+    """Get all reservations owned by self."""
+
+    res = sess.exec(select(Reservation).where(Reservation.owner == account.email))
+
+    return res
+
+
+@app.get("/reservation/self", response_model=list[Reservation])
+async def get_listing_reservations(account: Annotated[AccountDTO, Depends(get_current_user)],
+                                   sess: Annotated[Session, Depends(db_session)]):
+    """Get all reservations for listings owned by self."""
+
+    res = sess.exec(
+        select(Reservation).join(Listing).where(Listing.owner == account.email))
+
+    return res
+
+
+@app.post("/reservation/listing", response_model=list[Reservation])
+async def get_reservation_for_listing(listing: ExistingListingDTO,
+                                      account: Annotated[AccountDTO, Depends(get_current_user)],
+                                      sess: Annotated[Session, Depends(db_session)]):
+    """Get all reservations for a given listing"""
+
+    res = sess.exec(
+        select(Reservation).join(Listing).where(Listing.owner == account.email))
+
+    return res
+
+
+@app.post("/reservation", response_model=Reservation, status_code=201)
+async def create_reservation(reservation: ReservationDTO, account: Annotated[AccountDTO, Depends(get_current_user)],
+                             sess: Annotated[Session, Depends(db_session)]):
+    """Attempts to create a new reservation for a listing."""
+
+    listing = sess.get(Listing, reservation.listing_id)
+
+    if listing is None:
+        raise HTTPException(400, "Listing does not exist")
+
+    if listing.owner == account.email:
+        raise HTTPException(400, "Cannot reserve own listing!")
+
+    # Check if reservation is valid for listing
+    dates = sess.exec(select(AvailableDateRange).where(AvailableDateRange.listing_id == listing.id))
+
+    if dates is None:
+        raise HTTPException(400, "Listing has no available dates!")
+
+    og_ranges = [TimeRange(r[0], r[1]) for r in reduce(lambda x, y: x + y, [d.to_ranges() for d in dates])]
+
+    existing_reservations = sess.exec(select(Reservation).where(Reservation.listing_id == listing.id))
+    existing_reservations = [TimeRange(d.start_date, d.end_date) for d in existing_reservations]
+
+    new_range = TimeRange(reservation.start_date, reservation.end_date)
+
+    # First see if new range fits in any old range
+    found = False
+    for range in og_ranges:
+        found |= new_range.start >= range.start and new_range.end <= range.end
+
+    if not found:
+        raise HTTPException(400, "Reservation is not in listing time range!")
+
+    # Next see if it overlaps with any existing reservations. If this occurs, then it cannot be valid
+    found = False
+    for range in existing_reservations:
+        found |= new_range.is_overlapped(range)
+
+    if found:
+        raise HTTPException(400, "Reservation range overlaps with existing reservation!")
+
+    # Reservation is good, save to db
+    res = Reservation(owner=account.email, **reservation.model_dump())
+    sess.add(res)
+    sess.commit()
+
+    return res
+
 
 # TODO payment
 

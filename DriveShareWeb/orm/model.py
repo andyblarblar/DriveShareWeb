@@ -31,14 +31,17 @@ class Listing(SQLModel, table=True):
     """Price per day"""
 
 
-class Reservation(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    owner: str = Field(foreign_key="account.email")
-    """The account reserving"""
+class ReservationDTO(SQLModel):
     listing_id: int = Field(foreign_key="listing.id")
     """ID of listing this reservation is for"""
     start_date: datetime.date
     end_date: datetime.date
+
+
+class Reservation(ReservationDTO, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    owner: str = Field(foreign_key="account.email")
+    """The account reserving"""
 
 
 class Review(SQLModel, table=True):
@@ -64,7 +67,7 @@ class AvailableDateRange(SQLModel, table=True):
         return [(self.start_date, self.end_date)]
 
 
-## DTOs not in DB ##
+# DTOs not in DB
 class NewListingDTO(BaseModel):
     model: str
     year: int

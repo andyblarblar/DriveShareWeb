@@ -20,7 +20,10 @@ def prepare_db():
         if not sess.get(Account, "avealov@umich.edu"):
             a1 = Account(email="avealov@umich.edu", password=hash_password("123"), secq1="asd", secq2="asd",
                          secq3="asd")
+            a2 = Account(email="bob@umich.edu", password=hash_password("123"), secq1="asd", secq2="asd",
+                         secq3="asd")
             sess.add(a1)
+            sess.add(a2)
 
             l1 = Listing(owner=a1.email, model="Mazda Miata", year=2004, mileage=50000, location="Dearborn, MI",
                          price=40.5)
