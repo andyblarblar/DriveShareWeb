@@ -44,16 +44,19 @@ class Reservation(ReservationDTO, table=True):
     """The account reserving"""
 
 
-class Review(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    owner: str = Field(foreign_key="account.email")
-    """Reviewer email"""
+class ReviewDTO(SQLModel):
     reservation_id: int = Field(foreign_key="reservation.id")
     """Reservation this review is for"""
     text: str
     """Review text"""
     rating: int
     """1-5 star rating"""
+
+
+class Review(ReviewDTO, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    owner: str = Field(foreign_key="account.email")
+    """Reviewer email"""
 
 
 class AvailableDateRange(SQLModel, table=True):

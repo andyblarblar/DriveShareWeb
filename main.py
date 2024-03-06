@@ -14,7 +14,7 @@ from DriveShareWeb.orm.connect import prepare_db
 from DriveShareWeb.security import password
 from DriveShareWeb.security.token import Token, create_access_token
 from DriveShareWeb.orm.model import Account, AccountDTO, NewListingDTO, Listing, AvailableDateRange, ExistingListingDTO, \
-    ReservationDTO, Reservation
+    ReservationDTO, Reservation, Review, ReviewDTO
 from DriveShareWeb.utils import TimeRange
 
 app = FastAPI()
@@ -162,14 +162,14 @@ async def get_listing_reservations(account: Annotated[AccountDTO, Depends(get_cu
     return res
 
 
-@app.post("/reservation/listing", response_model=list[Reservation])
-async def get_reservation_for_listing(listing: ExistingListingDTO,
+@app.get("/reservation/{id}", response_model=list[Reservation])
+async def get_reservation_for_listing(id: int,
                                       account: Annotated[AccountDTO, Depends(get_current_user)],
                                       sess: Annotated[Session, Depends(db_session)]):
     """Get all reservations for a given listing"""
 
     res = sess.exec(
-        select(Reservation).join(Listing).where(Listing.owner == account.email))
+        select(Reservation).join(Listing).where(Listing.id == id))
 
     return res
 
@@ -222,6 +222,38 @@ async def create_reservation(reservation: ReservationDTO, account: Annotated[Acc
     sess.commit()
 
     return res
+
+
+@app.get("/review/{id}", response_model=list[Review])
+async def get_reviews_for_listing(id: int, account: Annotated[AccountDTO, Depends(get_current_user)],
+                                  sess: Annotated[Session, Depends(db_session)]):
+    """Get all reviews for a given reservation"""
+
+    res = sess.exec(
+        select(Review).join(Reservation).where(Reservation.id == id))
+
+    return res
+
+
+@app.post("/review", response_model=Review, status_code=201)
+async def create_review(review: ReviewDTO, account: Annotated[AccountDTO, Depends(get_current_user)],
+                        sess: Annotated[Session, Depends(db_session)]):
+    """Create a review for a reservation you submitted, or is for a listing you own."""
+
+    reservation = sess.get(Reservation, review.reservation_id)
+    listing = sess.get(Listing, reservation.listing_id)
+
+    if reservation is None:
+        raise HTTPException(400, "Reservation did not exist!")
+
+    if account.email != reservation.owner and listing.owner != account.email:
+        raise HTTPException(403, "Cannot review a reservation that is not yours!")
+
+    db_review = Review(owner=account.email, **review.model_dump())
+    sess.add(db_review)
+    sess.commit()
+
+    return db_review
 
 
 # TODO payment
