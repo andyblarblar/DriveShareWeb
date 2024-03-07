@@ -232,6 +232,8 @@ async def create_reservation(reservation: ReservationDTO, account: Annotated[Acc
     sess.add(res)
     sess.commit()
 
+    event_manager.publish(RegistrationEvent(listing, res))
+
     return res
 
 
@@ -264,10 +266,12 @@ async def create_review(review: ReviewDTO, account: Annotated[AccountDTO, Depend
     sess.add(db_review)
     sess.commit()
 
+    event_manager.publish(ReviewEvent(db_review, listing))
+
     return db_review
 
 
-# TODO payment
+# TODO payment and payment event
 
 # Login
 

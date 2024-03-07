@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2747fe08-a159-4776-9f11-eeca956aa97f" name="Changes" comment="init">
+    <list default="true" id="2747fe08-a159-4776-9f11-eeca956aa97f" name="Changes" comment="Add reviews">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,6 +16,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -43,6 +44,11 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
@@ -75,6 +81,8 @@
       <workItem from="1705538162806" duration="10000" />
       <workItem from="1709414788320" duration="487000" />
       <workItem from="1709587678347" duration="8000" />
+      <workItem from="1709659589207" duration="23150000" />
+      <workItem from="1709760006860" duration="27000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -84,7 +92,47 @@
       <option name="project" value="LOCAL" />
       <updated>1704940693757</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add model">
+      <option name="closed" value="true" />
+      <created>1709662719805</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1709662719805</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Update model and use dates">
+      <option name="closed" value="true" />
+      <created>1709664290151</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709664290151</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add listing management">
+      <option name="closed" value="true" />
+      <created>1709669291932</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1709669291932</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add reservations">
+      <option name="closed" value="true" />
+      <created>1709685579690</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1709685579690</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Add reviews">
+      <option name="closed" value="true" />
+      <created>1709688212402</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1709688212402</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -92,6 +140,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="Add model" />
+    <MESSAGE value="Update model and use dates" />
+    <MESSAGE value="Add listing management" />
+    <MESSAGE value="Add reservations" />
+    <MESSAGE value="Add reviews" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add reviews" />
   </component>
 </project>

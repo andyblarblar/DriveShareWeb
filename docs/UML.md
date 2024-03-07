@@ -13,10 +13,13 @@ classDiagram
 
     class PaymentEvent {
         + reg: Registration
+        + listing: Listing
+        + price: float
     }
 
     class ReviewEvent {
         + review: Review
+        + listing: Listing
     }
 
     class EventManager {
@@ -41,7 +44,7 @@ classDiagram
     class PayeeListener {
         + update(Event)
     }
-    
+
     class PayerListener {
         + update(Event)
     }
@@ -67,4 +70,6 @@ classDiagram
 ```
 
 We create an event system that allows for subscribing to events created in the backend. This is designed to be used for
-notifying users, however it could be used for other functionality if required. 
+notifying users, however it could be used for other functionality if required.
+
+This is implemented in events.py.
