@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2747fe08-a159-4776-9f11-eeca956aa97f" name="Changes" comment="Add reviews">
+    <list default="true" id="2747fe08-a159-4776-9f11-eeca956aa97f" name="Changes" comment="Finish emails">
+      <change afterPath="$PROJECT_DIR$/DriveShareWeb/payment.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/ER.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DriveShareWeb/deps.py" beforeDir="false" afterPath="$PROJECT_DIR$/DriveShareWeb/deps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/UML.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/UML.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +27,10 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -83,6 +92,8 @@
       <workItem from="1709587678347" duration="8000" />
       <workItem from="1709659589207" duration="23150000" />
       <workItem from="1709760006860" duration="27000" />
+      <workItem from="1709846417910" duration="4758000" />
+      <workItem from="1709853363588" duration="1072000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -132,7 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709688212402</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Finish emails">
+      <option name="closed" value="true" />
+      <created>1709850006121</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1709850006121</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +164,7 @@
     <MESSAGE value="Add listing management" />
     <MESSAGE value="Add reservations" />
     <MESSAGE value="Add reviews" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add reviews" />
+    <MESSAGE value="Finish emails" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finish emails" />
   </component>
 </project>

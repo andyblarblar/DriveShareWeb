@@ -73,3 +73,31 @@ We create an event system that allows for subscribing to events created in the b
 notifying users, however it could be used for other functionality if required.
 
 This is implemented in events.py.
+
+## Payment Proxy
+
+```mermaid
+classDiagram
+    direction TB
+    class PaymentService {
+        <<interface>>
+        + handle_payment(price: float)
+    }
+
+    class MockPaymentService {
+        + handle_payment(price: float)
+    }
+
+    class LoggerPaymentProxy {
+        - wrapped: PaymentService
+        + handle_payment(price: float)
+    }
+
+    PaymentService <|-- MockPaymentService
+    PaymentService <|-- LoggerPaymentProxy
+    LoggerPaymentProxy *-- PaymentService
+```
+
+The payment system is implemented as a mock with a proxy for logging. The mock takes the place
+of an actual payment handler, and simply does nothing. The logger proxy wraps this mock (or a real
+service), and simply logs the action in the server before performing the wrapped services transaction.

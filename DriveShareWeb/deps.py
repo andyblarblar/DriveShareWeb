@@ -1,5 +1,3 @@
-import datetime
-import logging
 from typing import Annotated
 
 from fastapi import Depends, HTTPException
@@ -9,6 +7,7 @@ from starlette.requests import Request
 
 from .orm.connect import engine
 from .orm.model import AccountDTO, Account
+from .payment import PaymentService, MockPaymentService, LoggerPaymentProxy
 from .security.token import decode, OAuth2PasswordBearerWithCookie
 
 
@@ -56,3 +55,8 @@ async def ensure_user_not_logged_in(request: Request):
         data = decode(token.removeprefix("bearer "))
         if data:
             raise redirect
+
+
+async def get_payment_service() -> PaymentService:
+    """Returns the payment service."""
+    return LoggerPaymentProxy(MockPaymentService())

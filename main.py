@@ -1,5 +1,6 @@
 from functools import reduce
 from typing import Annotated
+import datetime
 
 from fastapi import FastAPI, Depends, HTTPException, Response, Request, Query, Form
 from fastapi.responses import HTMLResponse
@@ -9,10 +10,11 @@ from sqlmodel import Session, select
 from starlette import status
 from starlette.responses import RedirectResponse
 
-from DriveShareWeb.deps import ensure_user_not_logged_in, get_current_user, db_session
+from DriveShareWeb.deps import ensure_user_not_logged_in, get_current_user, db_session, get_payment_service
 from DriveShareWeb.events import EventManager, RegistrationEvent, ListingOwnerListener, ListingRegisterListener, \
     PayerListner, PaymentEvent, PayeeListner, ReviewListner, ReviewEvent
 from DriveShareWeb.orm.connect import prepare_db
+from DriveShareWeb.payment import PaymentService
 from DriveShareWeb.security import password
 from DriveShareWeb.security.token import Token, create_access_token
 from DriveShareWeb.orm.model import Account, AccountDTO, NewListingDTO, Listing, AvailableDateRange, ExistingListingDTO, \
@@ -271,7 +273,43 @@ async def create_review(review: ReviewDTO, account: Annotated[AccountDTO, Depend
     return db_review
 
 
-# TODO payment and payment event
+@app.post("/payment")
+async def submit_payment(reservation: Reservation, account: Annotated[AccountDTO, Depends(get_current_user)],
+                         payment_service: Annotated[PaymentService, Depends(get_payment_service)],
+                         sess: Annotated[Session, Depends(db_session)]):
+    """Submits payment for a reservation."""
+
+    listing = sess.get(Listing, reservation.listing_id)
+
+    if account.email != reservation.owner:
+        raise HTTPException(403, "You can only pay for our own reservation")
+
+    # Calculate price
+    price = listing.price * (datetime.date.fromisoformat(reservation.end_date) - datetime.date.fromisoformat(
+        reservation.start_date)).days
+
+    # Handle payment
+    payment_service.handle_payment(price)
+
+    event_manager.publish(PaymentEvent(listing, reservation, price))
+
+
+@app.post("/payment/query", response_model=float)
+async def get_payment(reservation: Reservation, account: Annotated[AccountDTO, Depends(get_current_user)],
+                      sess: Annotated[Session, Depends(db_session)]):
+    """Get a reservations price."""
+
+    listing = sess.get(Listing, reservation.listing_id)
+
+    if account.email != reservation.owner:
+        raise HTTPException(403, "You can only pay for our own reservation")
+
+    # Calculate price
+    price = listing.price * (datetime.date.fromisoformat(reservation.end_date) - datetime.date.fromisoformat(
+        reservation.start_date)).days
+
+    return price
+
 
 # Login
 
