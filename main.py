@@ -10,6 +10,8 @@ from starlette import status
 from starlette.responses import RedirectResponse
 
 from DriveShareWeb.deps import ensure_user_not_logged_in, get_current_user, db_session
+from DriveShareWeb.events import EventManager, RegistrationEvent, ListingOwnerListener, ListingRegisterListener, \
+    PayerListner, PaymentEvent, PayeeListner, ReviewListner, ReviewEvent
 from DriveShareWeb.orm.connect import prepare_db
 from DriveShareWeb.security import password
 from DriveShareWeb.security.token import Token, create_access_token
@@ -21,10 +23,19 @@ app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="DriveShareWeb/static"), name="static")
 
+event_manager = EventManager()
+
 
 @app.on_event("startup")
 def on_startup():
     prepare_db()
+
+    # setup event manager
+    event_manager.subscribe(RegistrationEvent, ListingOwnerListener())
+    event_manager.subscribe(RegistrationEvent, ListingRegisterListener())
+    event_manager.subscribe(PaymentEvent, PayerListner())
+    event_manager.subscribe(PaymentEvent, PayeeListner())
+    event_manager.subscribe(ReviewEvent, ReviewListner())
 
 
 # URL rewrite
