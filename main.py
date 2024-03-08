@@ -16,6 +16,7 @@ from DriveShareWeb.events import EventManager, RegistrationEvent, ListingOwnerLi
 from DriveShareWeb.orm.connect import prepare_db
 from DriveShareWeb.payment import PaymentService
 from DriveShareWeb.security import password
+from DriveShareWeb.security.password import hash_password
 from DriveShareWeb.security.token import Token, create_access_token
 from DriveShareWeb.orm.model import Account, AccountDTO, NewListingDTO, Listing, AvailableDateRange, ExistingListingDTO, \
     ReservationDTO, Reservation, Review, ReviewDTO
@@ -43,7 +44,7 @@ def on_startup():
 # URL rewrite
 
 @app.get("/", response_class=HTMLResponse)
-async def home(account=Depends(get_current_user)):
+async def home_page(account=Depends(get_current_user)):
     with open("DriveShareWeb/static/home.html") as f:
         html = f.readlines()
 
@@ -51,8 +52,16 @@ async def home(account=Depends(get_current_user)):
 
 
 @app.get("/login", response_class=HTMLResponse)
-async def login(not_login=Depends(ensure_user_not_logged_in)):
+async def login_page(not_login=Depends(ensure_user_not_logged_in)):
     with open("DriveShareWeb/static/login.html") as f:
+        html = f.readlines()
+
+    return HTMLResponse(content=str.join("", html), status_code=200)
+
+
+@app.get("/signup", response_class=HTMLResponse)
+async def signup_page(not_login=Depends(ensure_user_not_logged_in)):
+    with open("DriveShareWeb/static/signup.html") as f:
         html = f.readlines()
 
     return HTMLResponse(content=str.join("", html), status_code=200)
@@ -314,6 +323,24 @@ async def get_payment(reservation: Reservation, account: Annotated[AccountDTO, D
 # Login
 
 # TODO add signup
+
+@app.post("/signup")
+async def signup(username: Annotated[str, Form()], password: Annotated[str, Form()],
+                 seq1: Annotated[str, Form()],
+                 seq2: Annotated[str, Form()],
+                 seq3: Annotated[str, Form()],
+                 sess: Annotated[Session, Depends(db_session)],
+                 not_login=Depends(ensure_user_not_logged_in)):
+    """Creates a new user account"""
+    existing_acc = sess.get(Account, username)
+
+    if existing_acc:
+        raise HTTPException(400, "A user with that email already exists!")
+
+    new_acc = Account(email=username, password=hash_password(password), secq1=seq1, secq2=seq2, secq3=seq3)
+    sess.add(new_acc)
+    sess.commit()
+
 
 @app.post("/token", response_model=Token)
 async def create_token(

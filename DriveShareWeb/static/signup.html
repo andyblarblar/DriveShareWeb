@@ -6,17 +6,23 @@
 </header>
 
 <div id="login-form-container">
-    <form action="/token" method="post" id="login-form" class="pure-form pure-form-stacked">
+    <form action="/signup" method="post" id="login-form" class="pure-form pure-form-stacked">
         <fieldset>
-            <legend>Login</legend>
+            <legend>Signup</legend>
             <label for="username">username:</label>
             <input type="email" name="username" required>
             <label for="password">password:</label>
             <input type="password" name="password" required>
+            <label for="seq1">What is the name of a pet you have owned?:</label>
+            <input type="text" name="seq1" required>
+            <label for="seq2">What is the name of your parents hometown?:</label>
+            <input type="text" name="seq2" required>
+            <label for="seq3">What is your favorite programming language?:</label>
+            <input type="text" name="seq3" required>
             <input type="submit" name="submit">
         </fieldset>
     </form>
-    <a href="/signup">Create an account</a>
+    <a href="/login">Return to login</a>
 </div>
 
 
@@ -35,11 +41,12 @@
             }
         ).then(
             r => {
-                // Redirect if now logged in
+                // Redirect back to login if account is successfully created
                 if (!r.ok) {
                     alert("Invalid username or password")
                 } else {
-                    window.location = "/"
+                    alert("Account created successfully!")
+                    window.location = "/login"
                 }
             }
         )
