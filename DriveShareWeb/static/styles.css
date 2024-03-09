@@ -1,20 +1,51 @@
+
+body {
+    background-color: #241E4B;
+}
+
+p {
+    background-color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
+
 /* Top navbar */
 #header {
     width: 100%;
     display: inline-flex;
-    background-color: #bbbbbb;
+    background-color: #636363;
+
 }
 
 #nav-boxes {
-    inline-size: 30%;
+    inline-size: 80%;
     justify-content: flex-start;
     display: inline-flex;
     /* Causes boxes to stick to each side*/
     flex: 1;
+
 }
 
 .nav-box {
     text-decoration: none;
+
+    /* Adjust width of each box accounting for margin */
+    width: calc(30% - 20px); 
+
+    /* Adjust margin to create space between the boxes */
+    margin-right: 5px; 
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    /* Makes the boxes round */
+    border-radius: 20px; 
+
+    /* Ensures content doesn't overflow if rounded corners are used */
+    overflow: hidden; 
+
+    /* Add Drop Shadow to all nav buttons */
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.5);
+
     color: #000000;
 }
 
@@ -25,10 +56,11 @@
 
 /**TODO update**/
 #assign-box {
-    background-color: #F6E96F;
+    background-color: #D9D9D9;
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
+    font-family: 'Arial', sans-serif;
 }
 
 #logout {
@@ -53,4 +85,6 @@
     padding-top: 20px;
     border: solid 1px;
     border-radius: 30px;
+    background-color: #D9D9D9;
 }
+
