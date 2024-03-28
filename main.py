@@ -51,21 +51,27 @@ async def home_page(account=Depends(get_current_user)):
     return HTMLResponse(content=str.join("", html), status_code=200)
 
 
-@app.get("/listings", response_class=HTMLResponse)
+@app.get("/searchlistings", response_class=HTMLResponse)
 async def home_page(account=Depends(get_current_user)):
-    with open("DriveShareWeb/static/listings.html") as f:
+    with open("DriveShareWeb/static/searchlistings.html") as f:
         html = f.readlines()
 
     return HTMLResponse(content=str.join("", html), status_code=200)
 
 
-@app.get("/reservations", response_class=HTMLResponse)
+@app.get("/mylistings", response_class=HTMLResponse)
 async def home_page(account=Depends(get_current_user)):
-    with open("DriveShareWeb/static/reservations.html") as f:
+    with open("DriveShareWeb/static/mylistings.html") as f:
         html = f.readlines()
 
     return HTMLResponse(content=str.join("", html), status_code=200)
 
+@app.get("/myreservations", response_class=HTMLResponse)
+async def home_page(account=Depends(get_current_user)):
+    with open("DriveShareWeb/static/myreservations.html") as f:
+        html = f.readlines()
+
+    return HTMLResponse(content=str.join("", html), status_code=200)
 
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(not_login=Depends(ensure_user_not_logged_in)):
@@ -82,6 +88,12 @@ async def signup_page(not_login=Depends(ensure_user_not_logged_in)):
 
     return HTMLResponse(content=str.join("", html), status_code=200)
 
+@app.get("/recover", response_class=HTMLResponse)
+async def signup_page(not_login=Depends(ensure_user_not_logged_in)):
+    with open("DriveShareWeb/static/recover.html") as f:
+        html = f.readlines()
+
+    return HTMLResponse(content=str.join("", html), status_code=200)
 
 # CRUD endpoints
 

@@ -8,6 +8,8 @@ p {
     font-family: 'Courier New', Courier, monospace;
 }
 
+
+
 /* Top navbar */
 #header {
     width: 100%;
@@ -29,7 +31,7 @@ p {
     text-decoration: none;
 
     /* Adjust width of each box accounting for margin */
-    width: calc(30% - 20px); 
+    width: calc(20% - 20px); 
 
     /* Adjust margin to create space between the boxes */
     margin-right: 5px; 
@@ -54,6 +56,26 @@ p {
     transition-duration: 0.2s;
 }
 
+
+
+/* Listing Grid */
+.listingContainer {
+    display: grid;
+    grid-auto-columns: minmax(100px, auto);
+    grid-auto-rows: minmax(100px, auto);
+    background-color: white;
+}
+
+.listingItem {
+    grid-column: auto;
+    grid-row: auto;
+    justify-self: center;
+    align-self: center;
+    place-self: center;
+}
+
+
+
 /**TODO update**/
 #assign-box {
     background-color: #D9D9D9;
@@ -64,7 +86,7 @@ p {
 }
 
 #logout {
-    inline-size: 69%;
+    inline-size: 39%;
     display: inline-flex;
     justify-content: end;
 }
