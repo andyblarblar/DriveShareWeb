@@ -92,3 +92,10 @@ class ExistingListingDTO(NewListingDTO):
     def from_orm_parts(listing: Listing, ranges: Sequence[AvailableDateRange]):
         return ExistingListingDTO(**listing.model_dump(),
                                   date_ranges=reduce(lambda x, y: x + y, (r.to_ranges() for r in ranges)))
+
+
+class PasswordResetDTO(BaseModel):
+    new_password: str
+    q1: str
+    q2: str
+    q3: str

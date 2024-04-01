@@ -15,11 +15,12 @@ from DriveShareWeb.events import EventManager, RegistrationEvent, ListingOwnerLi
     PayerListner, PaymentEvent, PayeeListner, ReviewListner, ReviewEvent
 from DriveShareWeb.orm.connect import prepare_db
 from DriveShareWeb.payment import PaymentService
+from DriveShareWeb.reset import PasswordResetQ1, PasswordResetCoR, PasswordResetQ2, PasswordResetQ3
 from DriveShareWeb.security import password
 from DriveShareWeb.security.password import hash_password
 from DriveShareWeb.security.token import Token, create_access_token
 from DriveShareWeb.orm.model import Account, AccountDTO, NewListingDTO, Listing, AvailableDateRange, ExistingListingDTO, \
-    ReservationDTO, Reservation, Review, ReviewDTO
+    ReservationDTO, Reservation, Review, ReviewDTO, PasswordResetDTO
 from DriveShareWeb.utils import TimeRange
 
 app = FastAPI()
@@ -66,12 +67,14 @@ async def home_page(account=Depends(get_current_user)):
 
     return HTMLResponse(content=str.join("", html), status_code=200)
 
+
 @app.get("/myreservations", response_class=HTMLResponse)
 async def home_page(account=Depends(get_current_user)):
     with open("DriveShareWeb/static/myreservations.html") as f:
         html = f.readlines()
 
     return HTMLResponse(content=str.join("", html), status_code=200)
+
 
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(not_login=Depends(ensure_user_not_logged_in)):
@@ -88,12 +91,14 @@ async def signup_page(not_login=Depends(ensure_user_not_logged_in)):
 
     return HTMLResponse(content=str.join("", html), status_code=200)
 
+
 @app.get("/recover", response_class=HTMLResponse)
 async def signup_page(not_login=Depends(ensure_user_not_logged_in)):
     with open("DriveShareWeb/static/recover.html") as f:
         html = f.readlines()
 
     return HTMLResponse(content=str.join("", html), status_code=200)
+
 
 # CRUD endpoints
 
@@ -350,8 +355,6 @@ async def get_payment(reservation: Reservation, account: Annotated[AccountDTO, D
 
 # Login
 
-# TODO add signup
-
 @app.post("/signup")
 async def signup(username: Annotated[str, Form()], password: Annotated[str, Form()],
                  seq1: Annotated[str, Form()],
@@ -368,6 +371,36 @@ async def signup(username: Annotated[str, Form()], password: Annotated[str, Form
     new_acc = Account(email=username, password=hash_password(password), secq1=seq1, secq2=seq2, secq3=seq3)
     sess.add(new_acc)
     sess.commit()
+
+
+@app.post("/passwordreset")
+async def password_reset(details: PasswordResetDTO, account: Annotated[AccountDTO, Depends(get_current_user)],
+                         session: Annotated[Session, Depends(db_session)]):
+    """
+    Resets the password for a signed-in user. Requires the submission of answers to 3 security questions, which will
+    be checked.
+    """
+    account = session.get(Account, account.email)
+
+    # Makes type system happy, since we know account must exist
+    assert isinstance(account, Account)
+
+    cor = PasswordResetQ1(account)
+    cor2 = PasswordResetQ2(account)
+    cor3 = PasswordResetQ3(account)
+    cor.add_next(cor2)
+    cor2.add_next(cor3)
+
+    # Ensure answers are correct
+    res = cor.handle(details)
+
+    if res:
+        # Update password
+        account.password = hash_password(details.new_password)
+        session.add(account)
+        session.commit()
+    else:
+        raise HTTPException(400, "Password recovery questions incorrect!")
 
 
 @app.post("/token", response_model=Token)

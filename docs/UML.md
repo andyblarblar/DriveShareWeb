@@ -101,3 +101,27 @@ classDiagram
 The payment system is implemented as a mock with a proxy for logging. The mock takes the place
 of an actual payment handler, and simply does nothing. The logger proxy wraps this mock (or a real
 service), and simply logs the action in the server before performing the wrapped services transaction.
+
+## Password Reset CoR
+
+```mermaid
+classDiagram
+    class PasswordResetCoR {
+        <<abstract>>
+        - next: PasswordResetCoR
+        + add_next(handler: PasswordResetCoR)
+        + handle(request: PasswordResetDTO) bool
+    }
+
+    class PasswordResetQ1
+    class PasswordResetQ2
+    class PasswordResetQ3
+
+    PasswordResetCoR *-- PasswordResetCoR
+    PasswordResetCoR <|-- PasswordResetQ1
+    PasswordResetCoR <|-- PasswordResetQ2
+    PasswordResetCoR <|-- PasswordResetQ3
+```
+
+The password Chain of Responsibility works as one would think, returning
+false early if any question fails, or true otherwise.
