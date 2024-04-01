@@ -18,6 +18,7 @@ class PasswordResetCoR(ABC):
 
 
 class PasswordResetQ1(PasswordResetCoR):
+    """Handles validating the first password reset question"""
     def __init__(self, record: Account):
         super().__init__()
         self._answer = record.secq1
@@ -33,6 +34,7 @@ class PasswordResetQ1(PasswordResetCoR):
 
 
 class PasswordResetQ2(PasswordResetCoR):
+    """Handles validating the second password reset question"""
     def __init__(self, record: Account):
         super().__init__()
         self._answer = record.secq2
@@ -47,6 +49,7 @@ class PasswordResetQ2(PasswordResetCoR):
 
 
 class PasswordResetQ3(PasswordResetCoR):
+    """Handles validating the third password reset question"""
     def __init__(self, record: Account):
         super().__init__()
         self._answer = record.secq3

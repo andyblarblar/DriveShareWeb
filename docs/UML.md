@@ -1,5 +1,7 @@
 ## Event Observer
 
+file: events.py
+
 ```mermaid
 classDiagram
     direction RL
@@ -72,9 +74,15 @@ classDiagram
 We create an event system that allows for subscribing to events created in the backend. This is designed to be used for
 notifying users, however it could be used for other functionality if required.
 
-This is implemented in events.py.
+The pattern works by reflecting into the event type passed, and firing registered listeners
+for that type via a map. This allows for more granular activations than the raw observer pattern.
+
+Currently, these just print an email to the console, but a quick addition of a proper email server would allow actual
+email responses.
 
 ## Payment Proxy
+
+file: payment.py
 
 ```mermaid
 classDiagram
@@ -104,6 +112,8 @@ service), and simply logs the action in the server before performing the wrapped
 
 ## Password Reset CoR
 
+file: reset.py
+
 ```mermaid
 classDiagram
     class PasswordResetCoR {
@@ -125,3 +135,32 @@ classDiagram
 
 The password Chain of Responsibility works as one would think, returning
 false early if any question fails, or true otherwise.
+
+## User access singleton
+
+file: deps.py
+
+Since we wanted to keep proper login functionality, our singleton could not be implemented all as one class due
+to python limits on callbacks for fastapi, but the pattern is still there. Roughly:
+
+```mermaid
+classDiagram
+    class Session {
+        - db_engine: Engine
+        + get(table, key)
+    }
+
+    class UserAccess {
+        + get_current_user(token, session: Session) AccountDTO
+    }
+
+    UserAccess *-- Session
+```
+
+Here get_current_user will take an OAuth token and a database session, and either return an account
+record if the token is valid, or raise an exception otherwise. This is used in the fastapi dependency injection system
+where ever we need access to the current user, ensuring there is only a single way to get the current user,
+and that whenever one has a user account, it is known to be verified.
+
+To use this dependency injection we cannot use the UserAccess namespacing, but that's ultimately just syntax,
+and the underlying singleton pattern is still here.
