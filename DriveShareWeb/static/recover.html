@@ -5,13 +5,18 @@
     <link rel="stylesheet" href="static/styles.css">
 </header>
 
-<div id="login-form-container">
-    <form action="/passwordreset" method="post" id="login-form" class="pure-form pure-form-stacked">
-        <!-- TODO Need js to convert this into json to post to endpoint-->
+<div id="recover-form-container">
+    <form action="/passwordreset" method="post" id="recover-form" class="pure-form pure-form-stacked">
         <fieldset>
             <legend>Recover Account</legend>
             <label for="username">Username:</label>
-            <input type="email" name="username" required>
+            <input type="text" name="username" required>
+            <label for="new_password">New Password:</label>
+            <input type="password" name="new_password" id="passwordText" required>
+            <div class="inline">
+                <input type="checkbox" onclick="toggleShow()">
+                <label>Show Password</label>
+            </div>
             <label for="seq1">What is the name of a pet you have owned?:</label>
             <input type="text" name="seq1" required>
             <label for="seq2">What is the name of your parents hometown?:</label>
@@ -23,3 +28,41 @@
     </form>
     <a href="/login">Return to login</a>
 </div>
+
+<script>
+    // Based on signup page Form Submission
+    const form = document.getElementById("recover-form")
+    form.addEventListener("submit", submitForm)
+
+    // Manual form submission
+    function submitForm(e) {
+        e.preventDefault()
+
+        fetch(form.action,
+            {
+                method: "post",
+                body: new FormData(form)
+            }
+        ).then(
+            r => {
+                // Redirect back to login if successful
+                if (!r.ok) {
+                    alert("Invalid question or account or new password")
+                } else {
+                    alert("Password Recovered successfully!")
+                    window.location = "/login"
+                }
+            }
+        )
+    }
+
+    function toggleShow() {
+        var box = document.getElementById("passwordText")
+        if (box.type === "password") {
+            box.type = "text";
+        } else {
+            box.type = "password";
+        }
+    }
+
+</script>
