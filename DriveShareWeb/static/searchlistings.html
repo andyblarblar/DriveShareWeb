@@ -38,102 +38,190 @@
 
 
     <!-- Begin Page Content -->
-    <p>Search Listings</p>
-    <!-- Button to call displayListings() function after popup message -->
-    <button id="listButton" type="button" onclick="alert('Getting Listings')">Get Listings</button>
+    <div class="search-container">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <p class="searchlisting" style="font-family: 'Arial', sans-serif; font-size: 24px; color: 
+            #000000;">Search for Listings</p>
+            <div style="display: flex; justify-content: space-between;">
+                <button id="listButton" class="search-button" type="button" onclick="alert('Getting Listings')">Get Listings</button>
+                <div style="width: 50px;"></div>
+                <button id="clearButton" class="search-button" type="button" onclick="clearInputs()">Clear</button>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 10px;">
+            <input id="modelInput" class="getinput" type="text" placeholder="Enter model">
+            <div style="width: 10px;"></div>
+            <input id="yearInput" class="getinput" type="text" placeholder="Enter year">
+            <div style="width: 10px;"></div>
+            <input id="milesInput" class="getinput" type="text" placeholder="Enter miles">
+            <div style="width: 10px;"></div>
+            <input id="locationInput" class="getinput" type="text" placeholder="Enter location">
+            <div style="width: 10px;"></div>
+            <input id="costInput" class="getinput" type="text" placeholder="Enter cost">
+            <div style="width: 10px;"></div>
+            <input id="dateInput" class="getinput" type="datetime-local" placeholder="Enter dates needed">
+        </div>
+    </div>
+
+    <script>
+        function clearInputs() {
+            document.getElementById("modelInput").value = "";
+            document.getElementById("yearInput").value = "";
+            document.getElementById("milesInput").value = "";
+            document.getElementById("locationInput").value = "";
+            document.getElementById("costInput").value = "";
+            document.getElementById("dateInput").value = "";
+        }
+    </script>
 
     <!-- Empty Description List to fill with Listings -->
     <dl id="listingGrid" class="listingContainer"></dl>
 
-</body>
+    </body>
 
+    <style>
+    .property-box {
+    border: 1px solid black;
+    width: 25%;
+    }
+    </style>
 
-<script>
-    const getList = document.getElementById("listButton")
-    getList.addEventListener("click", displayListings)
+    <script>
+        class ListingBuilder {
+            constructor() {
+                this.listing = document.createElement("table");
+                this.listing.className = "listing-table";
+            }
 
-    // Gets & Displays Listings
-    // Probably a much better way to do this.
-    async function displayListings() {
-        // Fetch Listing JSON
-        const response = await fetch("/listing");
-        const allListings = await response.json();
+            addProperty(name, value) {
+                const row = document.createElement("tr");
 
-        // Makes data var from allListings
-        var data = allListings;
+                const nameCell = document.createElement("td");
+                const nameBox = document.createElement("div");
+                nameBox.className = "property-box";
+                nameBox.appendChild(document.createTextNode(name));
+                nameCell.appendChild(nameBox);
+                row.appendChild(nameCell);
 
-        // Gets the Listing Grid Container element in html as object
-        var listingBox = document.getElementById("listingGrid")
+                const valueCell = document.createElement("td");
+                const valueBox = document.createElement("div");
+                valueBox.className = "property-box";
+                valueBox.appendChild(document.createTextNode(value));
+                valueCell.appendChild(valueBox);
+                row.appendChild(valueCell);
 
-        // For every listing in the JSON file
-        for(var i = 0; i < data.length; i++) {
-            // Select specific listing
-            var obj = data[i];
+                this.listing.appendChild(row);
 
-            // Create Unordered List
-            var LISTING = document.createElement("ul")
+                return this;
+            }
 
-            // Create Description Term (Lable) for listing (Model)
-            var modelA = document.createElement("dt");
-            // Now that the element exists, make it display "Model"
-            modelA.appendChild(document.createTextNode("Model"))
-
-            // Create Description Description (Content) for listing (Model)
-            var modelB = document.createElement("dd");
-            // Make it display the Model information from the listing
-            modelB.appendChild(document.createTextNode(obj.model));
-            // Make the Model Information a child of the Model Lable
-            modelA.appendChild(modelB)
-            // Make the whole Model text a child of the overall listing Unordered List
-            LISTING.appendChild(modelA)
-
-            // Repeat for each aspect of listing
-
-            var yearA = document.createElement("dt");
-            yearA.appendChild(document.createTextNode("Year"))
-            var yearB = document.createElement("dd");
-            yearB.appendChild(document.createTextNode(obj.year));
-            yearA.appendChild(yearB)
-            LISTING.appendChild(yearA)
-
-            var mileageA = document.createElement("dt");
-            mileageA.appendChild(document.createTextNode("Mileage"))
-            var mileageB = document.createElement("dd");
-            mileageB.appendChild(document.createTextNode(obj.mileage));
-            mileageA.appendChild(mileageB)
-            LISTING.appendChild(mileageA)
-
-            var locationA = document.createElement("dt");
-            locationA.appendChild(document.createTextNode("Location"))
-            var locationB = document.createElement("dd");
-            locationB.appendChild(document.createTextNode(obj.location));
-            locationA.appendChild(locationB)
-            LISTING.appendChild(locationA)
-
-            var priceA = document.createElement("dt");
-            priceA.appendChild(document.createTextNode("Price"))
-            var priceB = document.createElement("dd");
-            priceB.appendChild(document.createTextNode("$" + obj.price));
-            priceA.appendChild(priceB)
-            LISTING.appendChild(priceA)
-
-            var dateRangeA = document.createElement("dt");
-            dateRangeA.appendChild(document.createTextNode("Date Range"))
-            var dateRangeB = document.createElement("dd");
-            dateRangeB.appendChild(document.createTextNode(obj.date_ranges));
-            dateRangeA.appendChild(dateRangeB)
-            LISTING.appendChild(dateRangeA)
-
-            var ownerA = document.createElement("dt");
-            ownerA.appendChild(document.createTextNode("Owner"))
-            var ownerB = document.createElement("dd");
-            ownerB.appendChild(document.createTextNode(obj.owner));
-            ownerA.appendChild(ownerB)
-            LISTING.appendChild(ownerA)
-
-            // Add the Unordered list that contains all the listing info for one listing as a child to the description list
-            listingBox.appendChild(LISTING);
+            build() {
+                return this.listing;
+            }
         }
 
+        const getList = document.getElementById("listButton");
+        getList.addEventListener("click", displayListings);
+
+        // Gets & Displays Listings
+        // Probably a much better way to do this.
+        async function displayListings() {
+            // Check if the listing container already exists
+            let listingBox = document.getElementById("listingGrid");
+            if (listingBox) {
+                // If it exists, clear its content
+                listingBox.innerHTML = "";
+            } else {
+                // If it doesn't exist, create a new container
+                listingBox = document.createElement("dl");
+                listingBox.id = "listingGrid";
+                listingBox.className = "listingContainer";
+            }
+
+            // Fetch Listing JSON
+            const response = await fetch("/listing");
+            const allListings = await response.json();
+
+            // Get the query input values
+            const modelInput = document.getElementById("modelInput").value;
+            const yearInput = document.getElementById("yearInput").value;
+            const milesInput = document.getElementById("milesInput").value;
+            const locationInput = document.getElementById("locationInput").value;
+            const costInput = document.getElementById("costInput").value;
+            const dateInput = document.getElementById("dateInput").value;
+
+            // Filter the listings based on the query inputs
+            const filteredListings = allListings.filter(listingData => {
+                if (modelInput && !listingData.model.toLowerCase().includes(modelInput.toLowerCase())) {
+                    return false;
+                }
+                if (yearInput && listingData.year < parseInt(yearInput)) {
+                    return false;
+                }
+                if (milesInput && listingData.mileage > parseInt(milesInput)) {
+                    return false;
+                }
+                if (locationInput && !listingData.location.toLowerCase().includes(locationInput.toLowerCase())) {
+                    return false;
+                }
+                if (costInput && listingData.price > parseFloat(costInput)) {
+                    return false;
+                }
+                if (dateInput) {
+    const selectedDate = new Date(dateInput);
+    let isDateInRange = false;
+    for (let i = 0; i < listingData.date_ranges.length; i++) {
+        const [startDate, endDate] = listingData.date_ranges[i];
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        // Add one day to the end date to make it inclusive
+        end.setDate(end.getDate() + 1);
+        if (selectedDate >= start && selectedDate < end) {
+            isDateInRange = true;
+            break;
+        }
     }
-</script>
+    if (!isDateInRange) {
+        return false;
+    }
+}
+                return true;
+            });
+
+            // For every listing in the filtered list
+            for (let i = 0; i < filteredListings.length; i++) {
+                const listingData = filteredListings[i];
+
+                // Create Listing using the builder pattern
+                const listing = new ListingBuilder()
+                    .addProperty("Model", listingData.model)
+                    .addProperty("Year", listingData.year)
+                    .addProperty("Mileage", listingData.mileage)
+                    .addProperty("Location", listingData.location)
+                    .addProperty("Price", "$" + listingData.price)
+                    .addProperty("Dates Available", listingData.date_ranges)
+                    .addProperty("Owner", listingData.owner)
+                    .build();
+
+                // Create the "Reserve your ride!" button
+                const reserveButton = document.createElement("button");
+                reserveButton.textContent = "Reserve your ride!";
+                reserveButton.classList.add("search-button");
+
+                // Add the button to the listing
+                const buttonCell = document.createElement("td");
+                buttonCell.appendChild(reserveButton);
+                const buttonRow = document.createElement("tr");
+                buttonRow.appendChild(buttonCell);
+                listing.appendChild(buttonRow);
+
+                // Add the listing to the description list
+                listingBox.appendChild(listing);
+            }
+
+            // Append the listing container to the page if it's a new container
+            if (!document.getElementById("listingGrid")) {
+                document.body.appendChild(listingBox);
+            }
+        }
+    </script>
