@@ -95,6 +95,7 @@ class ExistingListingDTO(NewListingDTO):
 
 
 class PasswordResetDTO(BaseModel):
+    email: str
     new_password: str
     q1: str
     q2: str

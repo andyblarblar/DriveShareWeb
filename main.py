@@ -381,16 +381,16 @@ async def signup(username: Annotated[str, Form()], password: Annotated[str, Form
 
 
 @app.post("/passwordreset")
-async def password_reset(details: PasswordResetDTO, account: Annotated[AccountDTO, Depends(get_current_user)],
-                         session: Annotated[Session, Depends(db_session)]):
+async def password_reset(details: PasswordResetDTO, session: Annotated[Session, Depends(db_session)],
+                         _: Annotated[None, Depends(ensure_user_not_logged_in)]):
     """
-    Resets the password for a signed-in user. Requires the submission of answers to 3 security questions, which will
+    Resets the password for a user. Requires the submission of answers to 3 security questions, which will
     be checked.
     """
-    account = session.get(Account, account.email)
+    account = session.get(Account, details.email)
 
-    # Makes type system happy, since we know account must exist
-    assert isinstance(account, Account)
+    if account is None:
+        raise HTTPException(400, "Account is not valid")
 
     cor = PasswordResetQ1(account)
     cor2 = PasswordResetQ2(account)
