@@ -171,3 +171,34 @@ p {
 input[type='checkbox'] + label {
     display: inline-block;
 }
+
+
+.form-container {
+    outline: 1px solid black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column; /* Added this line */
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-container input {
+    width: 25%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.button-container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    padding: 10px;
+}
+
