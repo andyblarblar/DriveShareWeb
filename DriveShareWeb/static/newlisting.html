@@ -38,9 +38,6 @@
     <!-- Begin Page Content -->
     <h2 class="centered-text" style="padding-bottom: 1rem; text-align: center;">Create New Listing</h2>
     <div class="form-container">
-        <label for="owner">Owner Name:</label>
-        <input type="text" class="getinput" id="owner" name="owner" placeholder="Enter first and last name (EX: Jane Doe)" required>
-
         <label for="model">Model:</label>
         <input type="string" class="getinput" id="model" name="model" placeholder="Enter vehicle model (EX: Ford F150)" required>
 
@@ -57,10 +54,10 @@
         <input type="integer" class="getinput" id="miles" name="miles" placeholder="Enter miles on vehicle (EX: 10000)" required>
 
         <label for="start-date">Start Date:</label>
-        <input type="datetime-local" class="getinput" id="start-date" name="start-date" required>
+        <input type="date" class="getinput" id="start-date" name="start-date" required>
 
         <label for="end-date">End Date:</label>
-        <input type="datetime-local" class="getinput" id="end-date" name="end-date" required>
+        <input type="date" class="getinput" id="end-date" name="end-date" required>
     </div>
 
     <div class="button-container">
@@ -80,10 +77,9 @@
     <script>
     function Cancel() {
         window.location.href = "mylistings";
-    };
+    }
 
     function clearInputs() {
-        document.getElementById("owner").value = "";
         document.getElementById("model").value = "";
         document.getElementById("price").value = "";
         document.getElementById("year").value = "";
@@ -93,20 +89,16 @@
         document.getElementById("end-date").value = "";
     }
 
-    var id = 0;
-    id = parseInt(id);
     function createListing() {
+        const model = document.getElementById("model").value;
+        const price = document.getElementById("price").value;
+        const year = document.getElementById("year").value;
+        const location = document.getElementById("location").value;
+        const miles = document.getElementById("miles").value;
+        const startDate = document.getElementById("start-date").value;
+        const endDate = document.getElementById("end-date").value;
 
-        var owner = document.getElementById("owner").value;
-        var model = document.getElementById("model").value;
-        var price = document.getElementById("price").value;
-        var year = document.getElementById("year").value;
-        var location = document.getElementById("location").value;
-        var miles = document.getElementById("miles").value;
-        var startDate = document.getElementById("start-date").value;
-        var endDate = document.getElementById("end-date").value;
-
-        if (owner && model && price && year && location && miles && startDate && endDate) {
+        if (model && price && year && location && miles && startDate && endDate) {
             // All fields are filled in
             fetch('/listing', {
                 method: 'POST',
@@ -114,8 +106,6 @@
                     'Content-Type': 'application/json'
                 },
                     body: JSON.stringify({
-                        id: id, 
-                        owner: owner,
                         model: model,
                         price: Number(price),
                         year: Number(year),
