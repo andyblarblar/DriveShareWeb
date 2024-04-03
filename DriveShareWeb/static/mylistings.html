@@ -37,5 +37,40 @@
     <!-- End Navbar -->
 
     <!-- Begin Page Content -->
-    <p>My Listings</p>
-</body>
+    <style>
+        .split-container {
+            display: flex;
+            align-items: flex-start; /* Updated: align items to flex-start */
+            justify-content: center;
+            height: 100vh;
+            position: relative; /* Added: set position to relative */
+        }
+
+        .left-side,
+        .right-side {
+            flex: 1;
+            text-align: center;
+        }
+
+        .left-side {
+            border-right: 1px solid black;
+            padding-right: 20px;
+        }
+
+        .search-Button {
+            margin-top: 20px; /* Added: set margin-top to create space */
+        }
+    </style>
+
+    <div class="split-container">
+        <div class="right-side">
+            <h2>Manage Listings</h2>
+            <button id="createButton" class="search-button" type="button" onclick="NewListing()">Create New Listing</button>
+        </div>
+    </div>
+
+    <script>
+        function NewListing() {
+            window.location.href = "newlisting";
+        };
+    </script>
