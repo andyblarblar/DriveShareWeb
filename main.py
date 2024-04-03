@@ -75,6 +75,13 @@ async def home_page(account=Depends(get_current_user)):
 
     return HTMLResponse(content=str.join("", html), status_code=200)
 
+@app.get("/newlisting", response_class=HTMLResponse)
+async def home_page(account=Depends(get_current_user)):
+    with open("DriveShareWeb/static/newlisting.html") as f:
+        html = f.readlines()
+
+    return HTMLResponse(content=str.join("", html), status_code=200)
+
 
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(not_login=Depends(ensure_user_not_logged_in)):
