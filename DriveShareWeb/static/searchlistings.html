@@ -63,6 +63,19 @@
             <div style="width: 10px;"></div>
         </div>
     </div>
+    
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Are you sure you want to book this listing?</p>
+          <label for="startDate">Start date:</label>
+          <input type="date" id="startDate">
+          <label for="endDate">End date:</label>
+          <input type="date" id="endDate">
+          <button id="confirmButton" type="button">Confirm</button>
+          <button id="cancelButton" type="button">Cancel</button>
+        </div>
+      </div>
 
     <script>
         function clearInputs() {
@@ -79,10 +92,6 @@
     <dl id="listingGrid" class="listingContainer"></dl>
 
     </body>
-
-    <style>
-
-    </style>
 
     <script>
         class ListingBuilder {
@@ -192,6 +201,7 @@
 
                 // Create Listing using the builder pattern
                 const listing = new ListingBuilder()
+                .addProperty("ID", listingData.id)
                     .addProperty("Model", listingData.model)
                     .addProperty("Year", listingData.year)
                     .addProperty("Mileage", listingData.mileage)
@@ -206,8 +216,9 @@
                 reserveButton.textContent = "Reserve your ride!";
                 reserveButton.classList.add("search-button");
 
-                reserveButton.addEventListener("click", reserveListing);
-
+                reserveButton.addEventListener("click", function() {
+        reserveListing(listingData.id);
+    });
                 // Add the button to the listing
                 const buttonCell = document.createElement("td");
                 buttonCell.appendChild(reserveButton);
@@ -225,7 +236,107 @@
             }
         }
 
-        function reserveListing() {
-            alert("Reserving your ride!");
+        function reserveListing(listing_id) {
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // Get the confirm and cancel buttons
+    var confirmButton = document.getElementById("confirmButton");
+    var cancelButton = document.getElementById("cancelButton");
+
+    // When the user clicks on the button, open the modal 
+    modal.style.display = "block";
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks on confirm, alert and close the modal
+    confirmButton.onclick = function() {
+    // Get the start and end dates from the input fields
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+
+    const data = {
+        listing_id: listing_id, // use the listing_id passed as a parameter
+        start_date: startDate,
+        end_date: endDate,
+    };
+
+    // Make the POST request
+    fetch('/reservation', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // If the server returned an error, display it
+        if (data.error) {
+            alert(data.error);
+        } else {
+            // Otherwise, show a success message and close the modal
+            alert("You have successfully booked the listing!");
+            modal.style.display = "none";
         }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+    // When the user clicks on cancel, close the modal
+    cancelButton.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
     </script>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+      }
+      
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+      
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+        </style>
