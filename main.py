@@ -306,10 +306,11 @@ async def create_review(review: ReviewDTO, account: Annotated[AccountDTO, Depend
     """Create a review for a reservation you submitted, or is for a listing you own."""
 
     reservation = sess.get(Reservation, review.reservation_id)
-    listing = sess.get(Listing, reservation.listing_id)
 
     if reservation is None:
-        raise HTTPException(400, "Reservation did not exist!")
+        raise HTTPException(400, "Reservation does not exist!")
+
+    listing = sess.get(Listing, reservation.listing_id)
 
     if account.email != reservation.owner and listing.owner != account.email:
         raise HTTPException(403, "Cannot review a reservation that is not yours!")
