@@ -62,15 +62,297 @@
         }
     </style>
 
-    <div class="split-container">
-        <div class="right-side">
-            <h2>Manage Listings</h2>
+    <div>
+        <h1 class="centered-text" style="text-align: center;">Manage Listings</h1>
+        <div class="button-container">
             <button id="createButton" class="search-button" type="button" onclick="NewListing()">Create New Listing</button>
+        </div>
+            <dl id="listingGrid" class="listingsContainer"></dl>
+    </div>
+
+    <div id="editModal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+        <div style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%;">
+            <span id="closeModal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold;">&times;</span>
+            <form id="editForm">
+                <input type="text" name="model">
+                <input type="text" name="year">
+                <input type="text" name="mileage">
+                <input type="text" name="location">
+                <input type="text" name="price">
+                <input type="text" name="dateRanges">
+                <input type="text" name="id">
+                <button type="submit">Submit</button>
+            </form>
         </div>
     </div>
 
     <script>
+        function showListings() {
+            fetch('/listing/self')
+                .then(response => response.json())
+                .then(data => {
+                    const listingsContainer = document.getElementById('listingGrid');
+                    listingsContainer.innerHTML = '';
+
+                    data.forEach(listing => {
+                        const listingElement = createListingElement(listing)
+                            .addModel(listing.model)
+                            .addYear(listing.year)
+                            .addMileage(listing.mileage)
+                            .addLocation(listing.location)
+                            .addPrice(listing.price)
+                            .addDateRanges(listing.date_ranges)
+                            .addId(listing.id)
+                            .addOwner(listing.owner)
+                            .build();
+
+                        listingsContainer.appendChild(listingElement);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function createListingElement(listing) {
+            let model = '';
+            let year = '';
+            let mileage = '';
+            let location = '';
+            let price = '';
+            let dateRanges = '';
+            let id = '';
+            let owner = '';
+
+            return {
+                addModel: function (value) {
+                    model = value;
+                    return this;
+                },
+                addYear: function (value) {
+                    year = value;
+                    return this;
+                },
+                addMileage: function (value) {
+                    mileage = value;
+                    return this;
+                },
+                addLocation: function (value) {
+                    location = value;
+                    return this;
+                },
+                addPrice: function (value) {
+                    price = value;
+                    return this;
+                },
+                addDateRanges: function (value) {
+                    dateRanges = value;
+                    return this;
+                },
+                addId: function (value) {
+                    id = value;
+                    return this;
+                },
+                addOwner: function (value) {
+                    owner = value;
+                    return this;
+                },
+                build: function () {
+                    const listingElement = document.createElement('div');
+                    listingElement.classList.add('minimalistBlack'); // CSS for this at bottom of code
+
+                    const listingContent = document.createElement('div');
+                    listingContent.innerHTML = `
+                    <table class="minimalistBlack">
+                        <tr>
+                            <td>Model</td><td>Year</td><td>Mileage</td><td>Location</td><td>Price per day</td><td>Start Date   -   End Date</td><td>ID</td><td>Owner</td>
+                        </tr>
+                        <tr>
+                        <td class="model">${model}</td>
+                        <td class="year">${year}</td>
+                        <td class="mileage">${mileage}</td>
+                        <td class="location">${location}</td>
+                        <td class="price">$${price}</td>
+                        <td class="dateRanges">${dateRanges}</td>
+                        <td class="id">${id}</td>
+                        <td class="owner">${owner}</td>                    
+                    </tr>
+
+                    </table>
+                    <div class="button-container">
+                        <button id=EditButton-${id} class="my-listing-button" type="button">Edit</button>
+                        <button class="my-listing-button" type="button">View</button>
+                        <button class="my-listing-button" type="button">Review</button>
+                        </div>
+                        `;
+                        const editButton = listingContent.querySelector(`#EditButton-${id}`);
+                        editButton.addEventListener('click', function() {
+                            editListing(id);
+                        });
+
+                        listingElement.appendChild(listingContent);
+                        return listingElement;
+                        }
+                        
+                        };
+                        }
+
         function NewListing() {
             window.location.href = "newlisting";
         };
+
+        function editListing(id) {
+    // Fetch the listing details from the server
+    fetch(`/listing/${id}`)
+        .then(response => response.json())
+        .then(listing => {
+            // Extract the start date and end date
+            const startDate = listing.date_ranges[0][0];
+            const endDate = listing.date_ranges[0][1];
+
+            // Populate a form with these details
+            const form = document.getElementById('editForm');
+            form.innerHTML = `
+                <table>
+                    <tr>
+                        <td>Model:</td>
+                        <td><input type="string" name="model" value="${listing.model}"></td>
+                    </tr>
+                    <tr>
+                        <td>Year:</td>
+                        <td><input type="integer" name="year" value="${listing.year}"></td>
+                    </tr>
+                    <tr>
+                        <td>Mileage:</td>
+                        <td><input type="integer" name="mileage" value="${listing.mileage}"></td>
+                    </tr>
+                    <tr>
+                        <td>Location:</td>
+                        <td><input type="string" name="location" value="${listing.location}"></td>
+                    </tr>
+                    <tr>
+                        <td>Price:</td>
+                        <td><input type="number" name="price" value="${listing.price}"></td>
+                    </tr>
+                    <tr>
+                        <td>Starting Date:</td>
+                        <td><input type="date" name="startDate" value="${startDate}"></td>
+                    </tr>
+                    <tr>
+                        <td>End Date:</td>
+                        <td><input type="date" name="endDate" value="${endDate}"></td>
+                    </tr>
+                    <tr>
+                        <td>ID:</td>
+                        <td><input type="text" name="id" value="${listing.id}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Owner:</td>
+                        <td><input type="text" name="owner" value="${listing.owner}" readonly></td>
+                    </tr>
+                </table>
+                <button class="my-listing-button" type="submit">Save</button>
+            `;
+
+            // Show the form
+            const modal = document.getElementById('editModal');
+            modal.style.display = 'block';
+// Add an event listener to the form's submit event
+form.addEventListener('submit', function(event) {
+                // Prevent the default form submission
+                event.preventDefault();
+
+                // Get the form data
+                const formData = new FormData(form);
+
+                // Convert the form data to a JSON object
+                const data = Object.fromEntries(formData.entries());
+
+                // Convert the start date and end date to an array of arrays
+                data.date_ranges = [[data.startDate, data.endDate]];
+
+                // Send a PUT request to the server with the form data
+                fetch(`/listing`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+
+                    // Hide the form
+                    modal.style.display = 'none';
+
+                    // Refresh the listings
+                    showListings();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+        // Call showListings() when the page loads
+        window.addEventListener('DOMContentLoaded', showListings);
+
+        document.getElementById('closeModal').addEventListener('click', function() {
+    document.getElementById('editModal').style.display = 'none';
+});
     </script>
+
+<style>
+
+table.minimalistBlack {
+    font-family: "Arial Black", Gadget, sans-serif;
+    text-align: center;
+    border-collapse: collapse;
+    justify-content: center;
+    width: 50%;
+    background: white;
+    outline: 2px solid black;
+    margin: 0 auto;
+    margin-bottom: 0px;
+}
+
+table.minimalistBlack td, table.minimalistBlack th {
+    border: 2px solid #000000;
+    padding: 8px 4px;
+}
+
+table.minimalistBlack tbody td {
+    font-size: 13px;
+    color: #000000;
+}
+
+.button-container {
+    padding-bottom: 50px;
+    margin-top: 0px;
+}
+
+.my-listing-button {
+    background-color: #4e4e4e;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition-duration: 0.2s;
+    margin-right: 25px;
+    width: 100px;
+}
+
+.my-listing-button:hover {
+    background-color: #636363;
+}
+
+</style>

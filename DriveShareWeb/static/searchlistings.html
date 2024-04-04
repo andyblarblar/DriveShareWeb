@@ -48,7 +48,7 @@
                 <button id="clearButton" class="search-button" type="button" onclick="clearInputs()">Clear</button>
             </div>
         </div>
-        <div style="display: flex; justify-content: center; margin-top: 10px;">
+        <div style="display: flex; justify-content: center; margin-top: 10px; margin-bottom: 10px;">
             <input id="modelInput" class="getinput" type="text" placeholder="Enter model">
             <div style="width: 10px;"></div>
             <input id="yearInput" class="getinput" type="text" placeholder="Enter year">
@@ -60,6 +60,7 @@
             <input id="costInput" class="getinput" type="text" placeholder="Enter cost">
             <div style="width: 10px;"></div>
             <input id="dateInput" class="getinput" type="datetime-local" placeholder="Enter dates needed">
+            <div style="width: 10px;"></div>
         </div>
     </div>
 
@@ -80,10 +81,7 @@
     </body>
 
     <style>
-    .property-box {
-    border: 1px solid black;
-    width: 25%;
-    }
+
     </style>
 
     <script>
@@ -208,6 +206,8 @@
                 reserveButton.textContent = "Reserve your ride!";
                 reserveButton.classList.add("search-button");
 
+                reserveButton.addEventListener("click", reserveListing);
+
                 // Add the button to the listing
                 const buttonCell = document.createElement("td");
                 buttonCell.appendChild(reserveButton);
@@ -223,5 +223,9 @@
             if (!document.getElementById("listingGrid")) {
                 document.body.appendChild(listingBox);
             }
+        }
+
+        function reserveListing() {
+            alert("Reserving your ride!");
         }
     </script>
