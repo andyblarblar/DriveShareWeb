@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 class AccountDTO(SQLModel):
     email: str = Field(primary_key=True)
+    balance: float
 
 
 class Account(AccountDTO, table=True):

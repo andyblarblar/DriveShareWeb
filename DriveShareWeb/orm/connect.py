@@ -19,9 +19,9 @@ def prepare_db():
         # Populate DB with demo accounts if not done so far
         if not sess.get(Account, "avealov@umich.edu"):
             a1 = Account(email="avealov@umich.edu", password=hash_password("123"), secq1="asd", secq2="asd",
-                         secq3="asd")
+                         secq3="asd", balance=0.0)
             a2 = Account(email="bob@umich.edu", password=hash_password("123"), secq1="asd", secq2="asd",
-                         secq3="asd")
+                         secq3="asd", balance=0.0)
             sess.add(a1)
             sess.add(a2)
 

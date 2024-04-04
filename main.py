@@ -75,6 +75,7 @@ async def home_page(account=Depends(get_current_user)):
 
     return HTMLResponse(content=str.join("", html), status_code=200)
 
+
 @app.get("/newlisting", response_class=HTMLResponse)
 async def home_page(account=Depends(get_current_user)):
     with open("DriveShareWeb/static/newlisting.html") as f:
@@ -340,6 +341,12 @@ async def submit_payment(reservation: Reservation, account: Annotated[AccountDTO
     # Handle payment
     payment_service.handle_payment(price)
 
+    # Add funds to listing owners account
+    recv_acc = sess.get(Account, listing.owner)
+    recv_acc.balance += price
+    sess.add(recv_acc)
+    sess.commit()
+
     event_manager.publish(PaymentEvent(listing, reservation, price))
 
 
@@ -375,7 +382,7 @@ async def signup(username: Annotated[str, Form()], password: Annotated[str, Form
     if existing_acc:
         raise HTTPException(400, "A user with that email already exists!")
 
-    new_acc = Account(email=username, password=hash_password(password), secq1=seq1, secq2=seq2, secq3=seq3)
+    new_acc = Account(email=username, password=hash_password(password), secq1=seq1, secq2=seq2, secq3=seq3, balance=0.0)
     sess.add(new_acc)
     sess.commit()
 
