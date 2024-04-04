@@ -9,6 +9,7 @@ classDiagram
         varchar secq2
         varchar secq3
         varchar email
+        float balence
     }
     class availabledaterange {
         integer listing_id
