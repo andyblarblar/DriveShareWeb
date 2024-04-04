@@ -36,5 +36,97 @@
     </div>
     <!-- End Navbar -->
     <!-- Begin Page Content -->
-    <p>New Listing</p>
-</body>
+    <h2 class="centered-text" style="padding-bottom: 1rem; text-align: center;">Create New Listing</h2>
+    <div class="form-container">
+        <label for="model">Model:</label>
+        <input type="string" class="getinput" id="model" name="model" placeholder="Enter vehicle model (EX: Ford F150)" required>
+
+        <label for="price">Price:</label>
+        <input type="number" class="getinput" id="price" name="price" placeholder="Enter price per day (EX: 40)" required>
+
+        <label for="year">Year:</label>
+        <input type="integer" class="getinput" id="year" name="year" placeholder="Enter vehicle year made (EX: 2004)" required>
+
+        <label for="location">Location:</label>
+        <input type="string" class="getinput" id="location" name="location" placeholder="Enter location: (EX: Dearborn, MI)" required>
+
+        <label for="miles">Miles:</label>
+        <input type="integer" class="getinput" id="miles" name="miles" placeholder="Enter miles on vehicle (EX: 10000)" required>
+
+        <label for="start-date">Start Date:</label>
+        <input type="date" class="getinput" id="start-date" name="start-date" required>
+
+        <label for="end-date">End Date:</label>
+        <input type="date" class="getinput" id="end-date" name="end-date" required>
+    </div>
+
+    <div class="button-container">
+        <button type="button" class="search-button" id="cancel-button" onclick="Cancel()">Cancel</button>
+        <div style="width: 50px;"></div>
+        <button href="/listing" class="search-button" id="create-listing-button" onclick="createListing()">Create Listing</button>
+        <div style="width: 50px;"></div>
+        <button id="clearButton" class="search-button" type="button" onclick="clearInputs()">Clear</button>
+    </div>
+    </form>
+    </div>
+
+    </body>
+
+    <script>
+    function Cancel() {
+        window.location.href = "mylistings";
+    }
+
+    function clearInputs() {
+        document.getElementById("model").value = "";
+        document.getElementById("price").value = "";
+        document.getElementById("year").value = "";
+        document.getElementById("location").value = "";
+        document.getElementById("miles").value = "";
+        document.getElementById("start-date").value = "";
+        document.getElementById("end-date").value = "";
+    }
+
+    function createListing() {
+        const model = document.getElementById("model").value;
+        const price = document.getElementById("price").value;
+        const year = document.getElementById("year").value;
+        const location = document.getElementById("location").value;
+        const miles = document.getElementById("miles").value;
+        const startDate = document.getElementById("start-date").value;
+        const endDate = document.getElementById("end-date").value;
+
+        if (model && price && year && location && miles && startDate && endDate) {
+            // All fields are filled in
+            fetch('/listing', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                    body: JSON.stringify({
+                        model: model,
+                        price: Number(price),
+                        year: Number(year),
+                        location: location,
+                        mileage: Number(miles),
+                        date_ranges: [[startDate, endDate]]
+                    })
+                })
+            .then(response => response.json())
+            .then(data => {
+                // Handle successful response
+                alert("Listing Created");
+                window.location.href = "mylistings";
+            })
+            .catch(error => {
+                // Handle error
+                alert("Error creating listing");
+            });
+        } else {
+            // Not all fields are filled in
+            alert("Please fill in all fields");
+        }
+    }
+
+    </script>
+
