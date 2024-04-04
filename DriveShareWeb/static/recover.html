@@ -9,21 +9,21 @@
     <form action="/passwordreset" method="post" id="recover-form" class="pure-form pure-form-stacked">
         <fieldset>
             <legend>Recover Account</legend>
-            <label for="username">Username:</label>
-            <input type="text" name="username" required>
+            <label for="email">Username:</label>
+            <input type="text" name="email" id="email" required>
             <label for="new_password">New Password:</label>
-            <input type="password" name="new_password" id="passwordText" required>
+            <input type="password" name="new_password" id="new_password" required>
             <div class="inline">
                 <input type="checkbox" onclick="toggleShow()">
                 <label>Show Password</label>
             </div>
             <label for="seq1">What is the name of a pet you have owned?:</label>
-            <input type="text" name="seq1" required>
+            <input type="text" name="seq1" id="seq1" required>
             <label for="seq2">What is the name of your parents hometown?:</label>
-            <input type="text" name="seq2" required>
+            <input type="text" name="seq2" id="seq2" required>
             <label for="seq3">What is your favorite programming language?:</label>
-            <input type="text" name="seq3" required>
-            <input type="submit" name="submit" value="Recover">
+            <input type="text" name="seq3" id="seq3" required>
+            <input type="submit" name="submit" value="Recover" onclick="attemptRecovery()">
         </fieldset>
     </form>
     <a href="/login">Return to login</a>
@@ -31,33 +31,39 @@
 
 <script>
     // Based on signup page Form Submission
-    const form = document.getElementById("recover-form")
-    form.addEventListener("submit", submitForm)
 
-    // Manual form submission
-    function submitForm(e) {
-        e.preventDefault()
+    function attemptRecovery() {
+        let email = document.getElementById("email").value;
+        let new_password = document.getElementById("new_password").value;
+        let seq1 = document.getElementById("seq1").value;
+        let seq2 = document.getElementById("seq2").value;
+        let seq3 = document.getElementById("seq3").value;
 
-        fetch(form.action,
-            {
-                method: "post",
-                body: new FormData(form)
-            }
-        ).then(
-            r => {
-                // Redirect back to login if successful
-                if (!r.ok) {
-                    alert("Invalid question or account or new password")
-                } else {
-                    alert("Password Recovered successfully!")
-                    window.location = "/login"
-                }
-            }
-        )
+        fetch('/passwordreset', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+                body: JSON.stringify({
+                    email: email,
+                    new_password: new_password,
+                    q1: seq1,
+                    q2: seq2,
+                    q3: seq3
+                })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle successful response
+            alert("Password change successful");
+            window.location.href = "login";
+        });
+
     }
 
+
     function toggleShow() {
-        var box = document.getElementById("passwordText")
+        let box = document.getElementById("new_password")
         if (box.type === "password") {
             box.type = "text";
         } else {
