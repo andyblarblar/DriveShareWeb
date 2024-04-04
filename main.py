@@ -367,6 +367,13 @@ async def get_payment(reservation: Reservation, account: Annotated[AccountDTO, D
     return price
 
 
+@app.get("/balance", response_model=float)
+async def get_balance(account: Annotated[AccountDTO, Depends(get_current_user)]):
+    """Gets current users balance."""
+
+    return account.balance
+
+
 # Login
 
 @app.post("/signup")
