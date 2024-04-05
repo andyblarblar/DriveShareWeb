@@ -53,7 +53,7 @@ async def home_page(account=Depends(get_current_user)):
 
 
 @app.get("/searchlistings", response_class=HTMLResponse)
-async def home_page(account=Depends(get_current_user)):
+async def search_page(account=Depends(get_current_user)):
     with open("DriveShareWeb/static/searchlistings.html") as f:
         html = f.readlines()
 
@@ -61,7 +61,7 @@ async def home_page(account=Depends(get_current_user)):
 
 
 @app.get("/mylistings", response_class=HTMLResponse)
-async def home_page(account=Depends(get_current_user)):
+async def listings_page(account=Depends(get_current_user)):
     with open("DriveShareWeb/static/mylistings.html") as f:
         html = f.readlines()
 
@@ -69,7 +69,7 @@ async def home_page(account=Depends(get_current_user)):
 
 
 @app.get("/individuallisting", response_class=HTMLResponse)
-async def home_page(account=Depends(get_current_user)):
+async def individual_page(account=Depends(get_current_user)):
     with open("DriveShareWeb/static/individuallisting.html") as f:
         html = f.readlines()
 
@@ -77,7 +77,7 @@ async def home_page(account=Depends(get_current_user)):
 
 
 @app.get("/myreservations", response_class=HTMLResponse)
-async def home_page(account=Depends(get_current_user)):
+async def reservation_page(account=Depends(get_current_user)):
     with open("DriveShareWeb/static/myreservations.html") as f:
         html = f.readlines()
 
@@ -85,14 +85,14 @@ async def home_page(account=Depends(get_current_user)):
 
 
 @app.get("/newlisting", response_class=HTMLResponse)
-async def home_page(account=Depends(get_current_user)):
+async def new_listing_page(account=Depends(get_current_user)):
     with open("DriveShareWeb/static/newlisting.html") as f:
         html = f.readlines()
 
     return HTMLResponse(content=str.join("", html), status_code=200)
 
 @app.get("/newreview", response_class=HTMLResponse)
-async def home_page(account=Depends(get_current_user)):
+async def new_review_page(account=Depends(get_current_user)):
     with open("DriveShareWeb/static/newreview.html") as f:
         html = f.readlines()
 
