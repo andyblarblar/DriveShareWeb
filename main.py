@@ -448,7 +448,7 @@ async def create_token(
     if password.verify_password(form.password, form.username):
         access_token = create_access_token(form.username)
         # Set token in cookie and respond as JSON
-        response.set_cookie("access_token", f"bearer {access_token}", httponly=True)
+        response.set_cookie("access_token", f"bearer {access_token}", httponly=False)
         return {"access_token": access_token, "token_type": "bearer"}
     else:
         raise HTTPException(
