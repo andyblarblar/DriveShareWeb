@@ -332,3 +332,7 @@ table.minimalistBlack {
     text-decoration: none;
     cursor: pointer;
   }
+
+#balance {
+    color: black;
+}
