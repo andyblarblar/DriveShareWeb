@@ -39,3 +39,41 @@
     <!-- Begin Page Content -->
     <p>Listing page</p>
 </body>
+
+<script>
+    // Calls getReviews on page load
+    window.onload = function() {
+        getReviews();
+    }
+
+    // Gets Reviews to display
+    async function getReviews(){
+        // ######### NEED WAY OF GETTING LISTING ID FROM LISTING PAGE #########
+        // I have no idea how to do so, as buttons/search listings are automatically generated
+        // Temp value for now.
+        let idVar = 1
+
+        // GET reservations json for listing
+        let response = await fetch(`/reservation/${idVar}`);
+        let allReservations = await response.json();
+
+        // Loop through list of reservations
+        for (let i = 0; i < allReservations.length; i++) {
+            let obj = allReservations[i];
+            let reviewId = obj.id;
+
+            // GET all reviews for specific reservation
+            let response = await fetch(`/review/${reviewId}`)
+            let review = await response.json();
+
+            for (let j = 0; j < review.length; j++){
+                let obj2 = review[j]
+
+                // Temp log review --->>>!!! Eventually should display reviews on page
+                console.log(obj2.text)
+                console.log(obj2.rating)
+            }
+        }
+    }
+
+</script>

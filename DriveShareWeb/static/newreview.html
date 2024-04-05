@@ -43,13 +43,25 @@
                 <legend>Review</legend>
                 <label for="review">Description:</label>
                 <textarea id="review" cols="30" rows="5" required></textarea>
-                <label for="password">Rating out of 10:</label>
-                <input type="number" id="rating" min="0" max="10" required>
+                <label for="rating">Rating:</label>
+                <select id="rating">
+                    <option type="number" value="0">0 Stars</option>
+                    <option type="number" value="1">1 Stars</option>
+                    <option type="number" value="2">2 Stars</option>
+                    <option type="number" value="3">3 Stars</option>
+                    <option type="number" value="4">4 Stars</option>
+                    <option type="number" value="5">5 Stars</option>
+                </select>
+                <button type="button" onclick="history.back()">Cancel</button>
                 <button type="button" onclick="postReview()">Submit</button>
             </fieldset>
         </form>
     </div>
 </body>
+
+<!--
+    <input type="number" pattern="[0-9]" id="rating" min="0" max="10" required>
+-->
 
 <script>
     function postReview(){
@@ -73,16 +85,8 @@
         .then(data => {
             // Handle Successful Response
             alert("Review Posted");
+            window.location.href="/myreservations"
         })
         
     }
-
-
-    // function reviewRedirect(){
-    //         let reservationID = 2
-    //         window.location.href="/newreview?reservationID="+reservationID
-    // }
-
-
-
 </script>

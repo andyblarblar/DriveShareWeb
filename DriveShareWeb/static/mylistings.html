@@ -181,7 +181,7 @@
                     </table>
                     <div class="button-container">
                         <button id=EditButton-${id} class="my-listing-button" type="button">Edit</button>
-                        <button class="my-listing-button" type="button">View</button>
+                        <button class="my-listing-button" type="button" onclick="viewListing()">View</button>
                         <button class="my-listing-button" type="button">Review</button>
                         </div>
                         `;
@@ -305,6 +305,16 @@ form.addEventListener('submit', function(event) {
         document.getElementById('closeModal').addEventListener('click', function() {
     document.getElementById('editModal').style.display = 'none';
 });
+
+
+function viewListing(){
+    // ######### NEED WAY OF GETTING LISTING ID FROM LISTING PAGE #########
+    // I have no idea how to do so, as buttons/search listings are automatically generated
+    // Temp value for now.
+    let listingID = 1
+    window.location.href=`/individuallisting?listingID=${listingID}`
+}
+
     </script>
 
 <style>

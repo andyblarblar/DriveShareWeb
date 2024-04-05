@@ -68,6 +68,14 @@ async def home_page(account=Depends(get_current_user)):
     return HTMLResponse(content=str.join("", html), status_code=200)
 
 
+@app.get("/individuallisting", response_class=HTMLResponse)
+async def home_page(account=Depends(get_current_user)):
+    with open("DriveShareWeb/static/individuallisting.html") as f:
+        html = f.readlines()
+
+    return HTMLResponse(content=str.join("", html), status_code=200)
+
+
 @app.get("/myreservations", response_class=HTMLResponse)
 async def home_page(account=Depends(get_current_user)):
     with open("DriveShareWeb/static/myreservations.html") as f:

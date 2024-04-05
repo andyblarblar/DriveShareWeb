@@ -142,14 +142,15 @@ function createReservationElement(reservation) {
             reservationContent.innerHTML = `
             <table class="minimalistBlack">
                 <tr>
-                    <td>Listing ID</td><td>Start Date</td><td>End Date</td><td>ID</td><td>Owner</td>
+                    <td>Listing ID</td><td>Start Date</td><td>End Date</td><td>ID</td><td>Owner</td><td></td>
                 </tr>
                 <tr>
                 <td class="listingId">${listingId}</td>
                 <td class="startDate">${startDate}</td>
                 <td class="endDate">${endDate}</td>
                 <td class="id">${id}</td>
-                <td class="owner">${owner}</td>                    
+                <td class="owner">${owner}</td>
+                <td><button onclick="writeReview()">Review</button></td>
             </tr>
 
             </table>
@@ -162,6 +163,12 @@ function createReservationElement(reservation) {
                 
                 };
                 }
+
+function writeReview(){
+    // Temp Value
+    let reservationID = 1 // Need to find a way to dynamically get Reservation `ID` from table (Not Listing ID)
+    window.location.href="/newreview?reservationID="+reservationID
+}
 
 
     </script>
