@@ -265,12 +265,25 @@
             const startDate = new Date(document.getElementById("startDate").value);
             const endDate = new Date(document.getElementById("endDate").value);
 
+            // Extract JWT from Cookie in Browser
+            let cookies = decodeURIComponent(document.cookie);
+            let token = cookies.slice(21, -1)
+
+            // Decode Token
+            let decoded = atob(token.split('.')[1]);
+
+            // Extract Owner ID String
+            let ownerID = decoded.split(',')[1].slice(7,-2);
+
             // Fetch the listing data
             fetch(`/listing/${listing_id}`)
                 .then(response => response.json())
                 .then(listingData => {
                     // Check if the current user is the owner of the listing
-                    if (listingData.owner_id === self.owner_id) {
+                    console.log(listingData)
+                    console.log(listingData.owner)
+                    console.log(ownerID)
+                    if (listingData.owner === ownerID) {
                         alert("You cannot book your own listing.");
                         return;
                     }
