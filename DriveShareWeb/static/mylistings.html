@@ -3,7 +3,7 @@
 <header>
     <title>My Listings</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
-          integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+        integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="static/styles.css">
 </header>
@@ -26,13 +26,14 @@
                 My Reservations
             </a>
             <a class="pure-u-1-3 nav-box" id="assign-box">
-                Balance: $<span id="balance"></span> 
-            </a>  
+                Balance: $<span id="balance"></span>
+            </a>
         </div>
         <div id="logout">
             <a id="logout-icon-holder" href="/logout">
                 <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                    <path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"/>
+                    <path
+                        d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" />
                 </svg>
             </a>
         </div>
@@ -43,10 +44,12 @@
     <style>
         .split-container {
             display: flex;
-            align-items: flex-start; /* Updated: align items to flex-start */
+            align-items: flex-start;
+            /* Updated: align items to flex-start */
             justify-content: center;
             height: 100vh;
-            position: relative; /* Added: set position to relative */
+            position: relative;
+            /* Added: set position to relative */
         }
 
         .left-side,
@@ -61,19 +64,22 @@
         }
 
         .search-Button {
-            margin-top: 20px; /* Added: set margin-top to create space */
+            margin-top: 20px;
+            /* Added: set margin-top to create space */
         }
     </style>
 
     <div>
         <h1 class="centered-text" style="text-align: center;">Manage Listings</h1>
         <div class="button-container">
-            <button id="createButton" class="search-button" type="button" onclick="NewListing()">Create New Listing</button>
+            <button id="createButton" class="search-button" type="button" onclick="NewListing()">Create New
+                Listing</button>
         </div>
-            <dl id="listingGrid" class="listingsContainer"></dl>
+        <dl id="listingGrid" class="listingsContainer"></dl>
     </div>
 
-    <div id="editModal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+    <div id="editModal"
+        style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
         <div style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%;">
             <span id="closeModal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold;">&times;</span>
             <form id="editForm">
@@ -188,34 +194,34 @@
                         <button class="my-listing-button" type="button">Review</button>
                         </div>
                         `;
-                        const editButton = listingContent.querySelector(`#EditButton-${id}`);
-                        editButton.addEventListener('click', function() {
-                            editListing(id);
-                        });
+                    const editButton = listingContent.querySelector(`#EditButton-${id}`);
+                    editButton.addEventListener('click', function () {
+                        editListing(id);
+                    });
 
-                        listingElement.appendChild(listingContent);
-                        return listingElement;
-                        }
-                        
-                        };
-                        }
+                    listingElement.appendChild(listingContent);
+                    return listingElement;
+                }
+
+            };
+        }
 
         function NewListing() {
             window.location.href = "newlisting";
         };
 
         function editListing(id) {
-    // Fetch the listing details from the server
-    fetch(`/listing/${id}`)
-        .then(response => response.json())
-        .then(listing => {
-            // Extract the start date and end date
-            const startDate = listing.date_ranges[0][0];
-            const endDate = listing.date_ranges[0][1];
+            // Fetch the listing details from the server
+            fetch(`/listing/${id}`)
+                .then(response => response.json())
+                .then(listing => {
+                    // Extract the start date and end date
+                    const startDate = listing.date_ranges[0][0];
+                    const endDate = listing.date_ranges[0][1];
 
-            // Populate a form with these details
-            const form = document.getElementById('editForm');
-            form.innerHTML = `
+                    // Populate a form with these details
+                    const form = document.getElementById('editForm');
+                    form.innerHTML = `
                 <table>
                     <tr>
                         <td>Model:</td>
@@ -257,121 +263,120 @@
                 <button class="my-listing-button" type="submit">Save</button>
             `;
 
-            // Show the form
-            const modal = document.getElementById('editModal');
-            modal.style.display = 'block';
-// Add an event listener to the form's submit event
-form.addEventListener('submit', function(event) {
-                // Prevent the default form submission
-                event.preventDefault();
+                    // Show the form
+                    const modal = document.getElementById('editModal');
+                    modal.style.display = 'block';
+                    // Add an event listener to the form's submit event
+                    form.addEventListener('submit', function (event) {
+                        // Prevent the default form submission
+                        event.preventDefault();
 
-                // Get the form data
-                const formData = new FormData(form);
+                        // Get the form data
+                        const formData = new FormData(form);
 
-                // Convert the form data to a JSON object
-                const data = Object.fromEntries(formData.entries());
+                        // Convert the form data to a JSON object
+                        const data = Object.fromEntries(formData.entries());
 
-                // Convert the start date and end date to an array of arrays
-                data.date_ranges = [[data.startDate, data.endDate]];
+                        // Convert the start date and end date to an array of arrays
+                        data.date_ranges = [[data.startDate, data.endDate]];
 
-                // Send a PUT request to the server with the form data
-                fetch(`/listing`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
+                        // Send a PUT request to the server with the form data
+                        fetch(`/listing`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Success:', data);
+
+                                // Hide the form
+                                modal.style.display = 'none';
+
+                                // Refresh the listings
+                                showListings();
+                            })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                            });
+                    });
                 })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
-
-                    // Hide the form
-                    modal.style.display = 'none';
-
-                    // Refresh the listings
-                    showListings();
-                })
-                .catch((error) => {
+                .catch(error => {
                     console.error('Error:', error);
                 });
-            });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
+        }
 
         // Call showListings() when the page loads
         window.addEventListener('DOMContentLoaded', showListings);
 
-        document.getElementById('closeModal').addEventListener('click', function() {
-    document.getElementById('editModal').style.display = 'none';
-});
-
-fetch('/balance')  
-        .then(response => response.json())
-        .then(balance => {
-            document.getElementById('balance').textContent += balance;
+        document.getElementById('closeModal').addEventListener('click', function () {
+            document.getElementById('editModal').style.display = 'none';
         });
 
+        fetch('/balance')
+            .then(response => response.json())
+            .then(balance => {
+                document.getElementById('balance').textContent += balance;
+            });
 
-function viewListing(){
-    // ######### NEED WAY OF GETTING LISTING ID FROM LISTING PAGE #########
-    // I have no idea how to do so, as buttons/search listings are automatically generated
-    // Temp value for now.
-    let listingID = 1
-    window.location.href=`/individuallisting?listingID=${listingID}`
-}
+
+        function viewListing() {
+            // ######### NEED WAY OF GETTING LISTING ID FROM LISTING PAGE #########
+            // I have no idea how to do so, as buttons/search listings are automatically generated
+            // Temp value for now.
+            let listingID = 1
+            window.location.href = `/individuallisting?listingID=${listingID}`
+        }
 
     </script>
 
-<style>
+    <style>
+        table.minimalistBlack {
+            font-family: "Arial Black", Gadget, sans-serif;
+            text-align: center;
+            border-collapse: collapse;
+            justify-content: center;
+            width: 50%;
+            background: white;
+            outline: 2px solid black;
+            margin: 0 auto;
+            margin-bottom: 0px;
+        }
 
-table.minimalistBlack {
-    font-family: "Arial Black", Gadget, sans-serif;
-    text-align: center;
-    border-collapse: collapse;
-    justify-content: center;
-    width: 50%;
-    background: white;
-    outline: 2px solid black;
-    margin: 0 auto;
-    margin-bottom: 0px;
-}
+        table.minimalistBlack td,
+        table.minimalistBlack th {
+            border: 2px solid #000000;
+            padding: 8px 4px;
+        }
 
-table.minimalistBlack td, table.minimalistBlack th {
-    border: 2px solid #000000;
-    padding: 8px 4px;
-}
+        table.minimalistBlack tbody td {
+            font-size: 13px;
+            color: #000000;
+        }
 
-table.minimalistBlack tbody td {
-    font-size: 13px;
-    color: #000000;
-}
+        .button-container {
+            padding-bottom: 50px;
+            margin-top: 0px;
+        }
 
-.button-container {
-    padding-bottom: 50px;
-    margin-top: 0px;
-}
+        .my-listing-button {
+            background-color: #4e4e4e;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition-duration: 0.2s;
+            margin-right: 25px;
+            width: 100px;
+        }
 
-.my-listing-button {
-    background-color: #4e4e4e;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition-duration: 0.2s;
-    margin-right: 25px;
-    width: 100px;
-}
-
-.my-listing-button:hover {
-    background-color: #636363;
-}
-
-</style>
+        .my-listing-button:hover {
+            background-color: #636363;
+        }
+    </style>

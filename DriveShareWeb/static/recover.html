@@ -1,6 +1,6 @@
 <header>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
-          integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+        integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="static/styles.css">
 </header>
@@ -44,20 +44,20 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-                body: JSON.stringify({
-                    email: email,
-                    new_password: new_password,
-                    q1: seq1,
-                    q2: seq2,
-                    q3: seq3
-                })
+            body: JSON.stringify({
+                email: email,
+                new_password: new_password,
+                q1: seq1,
+                q2: seq2,
+                q3: seq3
+            })
         })
-        .then(response => response.json())
-        .then(data => {
-            // Handle successful response
-            alert("Password change successful");
-            window.location.href = "login";
-        });
+            .then(response => response.json())
+            .then(data => {
+                // Handle successful response
+                alert("Password change successful");
+                window.location.href = "login";
+            });
 
     }
 

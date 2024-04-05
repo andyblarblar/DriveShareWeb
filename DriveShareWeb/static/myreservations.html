@@ -3,7 +3,7 @@
 <header>
     <title>My Reservations</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
-          integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+        integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="static/styles.css">
 </header>
@@ -26,13 +26,14 @@
                 My Reservations
             </a>
             <a class="pure-u-1-3 nav-box" id="assign-box">
-                Balance: $<span id="balance"></span> 
-            </a>  
+                Balance: $<span id="balance"></span>
+            </a>
         </div>
         <div id="logout">
             <a id="logout-icon-holder" href="/logout">
                 <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                    <path d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"/>
+                    <path
+                        d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" />
                 </svg>
             </a>
         </div>
@@ -40,112 +41,118 @@
     <!-- End Navbar -->
 
     <!-- Begin Page Content -->
-        <style>
-            .split-container {
-                display: flex;
-                align-items: flex-start; /* Updated: align items to flex-start */
-                justify-content: center;
-                height: 100vh;
-                position: relative; /* Added: set position to relative */
-            }
+    <style>
+        .split-container {
+            display: flex;
+            align-items: flex-start;
+            /* Updated: align items to flex-start */
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+            /* Added: set position to relative */
+        }
 
-            .left-side,
-            .right-side {
-                flex: 1;
-                text-align: center;
-            }
+        .left-side,
+        .right-side {
+            flex: 1;
+            text-align: center;
+        }
 
-            .left-side {
-                border-right: 1px solid black;
-                padding-right: 20px;
-            }
+        .left-side {
+            border-right: 1px solid black;
+            padding-right: 20px;
+        }
 
-            .line {
-                position: absolute; /* Added: set position to absolute */
-                top: 68px; /* Added: set bottom to 100px */
-                left: 0; /* Added: set left to 0 */
-                width: 100%; /* Added: set width to 100% */
-                border-bottom: 1px solid black; /* Added: set border-bottom to 1px solid black */
-            }
+        .line {
+            position: absolute;
+            /* Added: set position to absolute */
+            top: 68px;
+            /* Added: set bottom to 100px */
+            left: 0;
+            /* Added: set left to 0 */
+            width: 100%;
+            /* Added: set width to 100% */
+            border-bottom: 1px solid black;
+            /* Added: set border-bottom to 1px solid black */
+        }
+    </style>
 
-        </style>
-
-<div class="split-container">
-    <div class="right-side">
-        <h2>Future/Current/Past Rentals</h2>
-        <div id="reservationsGrid"></div> <!-- Add this line -->
+    <div class="split-container">
+        <div class="right-side">
+            <h2>Future/Current/Past Rentals</h2>
+            <div id="reservationsGrid"></div> <!-- Add this line -->
+        </div>
+        <div class="line"></div> <!-- Added: line element -->
     </div>
-    <div class="line"></div> <!-- Added: line element -->
-</div>
-    </body>
+</body>
 
-    <script>
+<script>
 
-window.onload = function() {
-    showReservations();
-};
+    window.onload = function () {
+        showReservations();
+    };
 
-function showReservations() {
-    fetch('/reservation')
-        .then(response => response.json())
-        .then(data => {
-            const reservationsContainer = document.getElementById('reservationsGrid');
-            reservationsContainer.innerHTML = '';
+    function showReservations() {
+        fetch('/reservation')
+            .then(response => response.json())
+            .then(data => {
+                const reservationsContainer = document.getElementById('reservationsGrid');
+                reservationsContainer.innerHTML = '';
 
-            data.forEach(reservation => {
-                const reservationElement = createReservationElement(reservation)
-                    .addListingId(reservation.listing_id)
-                    .addStartDate(reservation.start_date)
-                    .addEndDate(reservation.end_date)
-                    .addId(reservation.id)
-                    .addOwner(reservation.owner)
-                    .build();
+                data.forEach(reservation => {
+                    const reservationElement = createReservationElement(reservation)
+                        .addListingId(reservation.listing_id)
+                        .addStartDate(reservation.start_date)
+                        .addEndDate(reservation.end_date)
+                        .addId(reservation.id)
+                        .addOwner(reservation.owner)
+                        .build();
 
-                reservationsContainer.appendChild(reservationElement);
+                    reservationsContainer.appendChild(reservationElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
+    }
 
-function createReservationElement(reservation) {
-    let listingId = '';
-    let startDate = '';
-    let endDate = '';
-    let id = '';
-    let owner = '';
+    function createReservationElement(reservation) {
+        let listingId = '';
+        let startDate = '';
+        let endDate = '';
+        let id = '';
+        let owner = '';
 
-    return {
-        addListingId: function (value) {
-            listingId = value;
-            return this;
-        },
-        addStartDate: function (value) {
-            startDate = value;
-            return this;
-        },
-        addEndDate: function (value) {
-            endDate = value;
-            return this;
-        },
-        addId: function (value) {
-            id = value;
-            return this;
-        },
-        addOwner: function (value) {
-            owner = value;
-            return this;
-        },
-        build: function () {
-            const reservationElement = document.createElement('div');
-            reservationElement.classList.add('minimalistBlack');
+        return {
+            addListingId: function (value) {
+                listingId = value;
+                return this;
+            },
+            addStartDate: function (value) {
+                startDate = value;
+                return this;
+            },
+            addEndDate: function (value) {
+                endDate = value;
+                return this;
+            },
+            addId: function (value) {
+                id = value;
+                return this;
+            },
+            addOwner: function (value) {
+                owner = value;
+                return this;
+            },
+            build: function () {
+                const reservationElement = document.createElement('div');
+                reservationElement.classList.add('minimalistBlack');
 
-            const reservationContent = document.createElement('div');
-            reservationContent.innerHTML = `
+                const reservationContent = document.createElement('div');
+                reservationContent.innerHTML = `
             <table class="minimalistBlack">
                 <tr>
-                    <td>Listing ID</td><td>Start Date</td><td>End Date</td><td>ID</td><td>Owner</td><td></td>
+                    <td>Listing ID</td><td>Start Date</td><td>End Date</td><td>ID</td><td>Owner</td><td><button onclick="initiatePay(${listingId}, '${startDate}', '${endDate}', ${id}, '${owner}')">Pay</button></td>
                 </tr>
                 <tr>
                 <td class="listingId">${listingId}</td>
@@ -153,62 +160,90 @@ function createReservationElement(reservation) {
                 <td class="endDate">${endDate}</td>
                 <td class="id">${id}</td>
                 <td class="owner">${owner}</td>
-                <td><button onclick="writeReview()">Review</button></td>
+                <td><button onclick="writeReview(${id})">Review</button></td>
             </tr>
 
             </table>
                 `;
-        
+
 
                 reservationElement.appendChild(reservationContent);
                 return reservationElement;
-                }
-                
-                };
-                }
+            }
 
-function writeReview(){
-    // Temp Value
-    let reservationID = 1 // Need to find a way to dynamically get Reservation `ID` from table (Not Listing ID)
-    window.location.href="/newreview?reservationID="+reservationID
-}
+        };
+    }
 
-function writeReview(){
-    // Temp Value
-    let reservationID = 1 // Need to find a way to dynamically get Reservation `ID` from table (Not Listing ID)
-    window.location.href="/newreview?reservationID="+reservationID
-}
+    function writeReview(reservationID) {
+        window.location.href = "/newreview?reservationID=" + reservationID
+    }
 
-        fetch('/balance')  
+    function initiatePay(listingId, startDate, endDate, id, owner) {
+        let cost = null
+        // Create Reservation JSON Object
+        let obj = JSON.stringify({
+            listing_id: listingId,
+            start_date: startDate,
+            end_date: endDate,
+            id: id,
+            owner: owner
+        })
+
+        fetch('/payment/query', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: obj
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Successful Response
+                alert(`Attempting Payment of ${data}`)
+            })
+
+        fetch('/payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: obj
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert("Payment Successful")
+            })
+
+    }
+
+    fetch('/balance')
         .then(response => response.json())
         .then(balance => {
             document.getElementById('balance').textContent += balance;
         });
-    </script>
+</script>
 
 <style>
+    table.minimalistBlack {
+        font-family: "Arial Black", Gadget, sans-serif;
+        text-align: center;
+        border-collapse: collapse;
+        justify-content: center;
+        width: 50%;
+        background: white;
+        outline: 2px solid black;
+        margin: 0 auto;
+        margin-bottom: 0px;
+    }
 
-table.minimalistBlack {
-    font-family: "Arial Black", Gadget, sans-serif;
-    text-align: center;
-    border-collapse: collapse;
-    justify-content: center;
-    width: 50%;
-    background: white;
-    outline: 2px solid black;
-    margin: 0 auto;
-    margin-bottom: 0px;
-}
+    table.minimalistBlack td,
+    table.minimalistBlack th {
+        border: 2px solid #000000;
+        padding: 8px 4px;
+    }
 
-table.minimalistBlack td, table.minimalistBlack th {
-    border: 2px solid #000000;
-    padding: 8px 4px;
-}
-
-table.minimalistBlack tbody td {
-    font-size: 13px;
-    color: #000000;
-}
-
+    table.minimalistBlack tbody td {
+        font-size: 13px;
+        color: #000000;
+    }
 </style>
-
