@@ -52,85 +52,27 @@
     .split-container {
       display: flex;
       align-items: flex-start;
-      /* Updated: align items to flex-start */
       justify-content: center;
       height: 100vh;
       position: relative;
-      /* Added: set position to relative */
     }
-
+  
     .left-side,
     .right-side {
       flex: 1;
       text-align: center;
     }
-
+  
     .left-side {
       border-right: 1px solid black;
       padding-right: 20px;
     }
-
+  
     .search-Button {
       margin-top: 20px;
-      /* Added: set margin-top to create space */
     }
-
-    /* The modal (background) */
+  
     .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0, 0, 0); /* Fallback color */
-      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-    }
-
-    /* Modal content */
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
-    }
-
-    /* The close button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-  </style>
-  <div>
-    <h1 class="centered-text" style="text-align: center">Manage Listings</h1>
-    <div class="button-container">
-      <button
-        id="createButton"
-        class="search-button"
-        type="button"
-        onclick="NewListing()"
-      >
-        Create New Listing
-      </button>
-    </div>
-    <dl id="listingGrid" class="listingsContainer"></dl>
-  </div>
-
-  <div
-    id="editModal"
-    style="
       display: none;
       position: fixed;
       z-index: 1;
@@ -140,22 +82,44 @@
       height: 100%;
       overflow: auto;
       background-color: rgba(0, 0, 0, 0.4);
-    "
-  >
-    <div
-      style="
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-      "
-    >
-      <span
-        id="closeModal"
-        style="color: #aaa; float: right; font-size: 28px; font-weight: bold"
-        >&times;</span
-      >
+    }
+  
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+  
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+  
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+  
+  <div>
+    <h1 class="centered-text" style="text-align: center">Manage Listings</h1>
+    <div class="button-container">
+      <button id="createButton" class="search-button" type="button" onclick="NewListing()">
+        Create New Listing
+      </button>
+    </div>
+    <dl id="listingGrid" class="listingsContainer"></dl>
+  </div>
+  
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span id="closeEditModal" class="close">&times;</span>
       <form id="editForm">
         <input type="text" name="model" />
         <input type="text" name="year" />
@@ -168,18 +132,20 @@
       </form>
     </div>
   </div>
-
+  
   <div id="reviewsModal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span id="closeReviewsModal" class="close">&times;</span>
+      <form id="reviewsForm">
       <p>Reviews:</p>
       <div id="reviewsContainer"></div>
     </div>
   </div>
-
+  
   <div id="reservationsModal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span id="closeReservationsModal" class="close">&times;</span>
+      <form id="reservationsForm">
       <p>Reservations:</p>
       <div id="reservationsContainer"></div>
     </div>
@@ -440,6 +406,7 @@
                           modal.style.display = "none";
                         }
                       };
+                  
                     })
                     .catch((error) => {
                       console.error("Error:", error);
@@ -471,26 +438,10 @@
                       }
 
                       // Get the modal
-                      const modal =
-                        document.getElementById("reservationsModal");
+                      const modal = document.getElementById("reservationsModal");
 
-                      // Get all the <span> elements that close the modals
-                      const closeButtons =
-                        document.getElementsByClassName("close");
-
-                      // Add an event listener to each close button
-                      for (let i = 0; i < closeButtons.length; i++) {
-                        const closeButton = closeButtons[i];
-                        closeButton.onclick = function () {
-                          // Get the modal that this close button is a part of
-                          let modal = closeButton;
-                          while (modal.className !== "modal") {
-                            modal = modal.parentElement;
-                          }
-                          // Hide the modal
-                          modal.style.display = "none";
-                        };
-                      }
+                      // Get the <span> element that closes the modal
+                      const span = document.getElementsByClassName("close")[0];
 
                       // When the user clicks on the button, open the modal
                       modal.style.display = "block";
@@ -540,9 +491,9 @@
                     }
                   });
 
-                  td.appendChild(button); // Move this line outside of the click event listener
+                  td.appendChild(button);
                 });
-                tr.appendChild(td); // Move this line outside of the forEach loop
+                tr.appendChild(td);
 
                 table.appendChild(tr);
 
@@ -556,14 +507,21 @@
       }
     }
 
-    // Get the modal and the close button
-    const editModal = document.getElementById("editModal");
-    const closeModal = document.getElementById("closeModal");
+    const closeEditModal = document.getElementById("closeEditModal");
+const closeReviewsModal = document.getElementById("closeReviewsModal");
+const closeReservationsModal = document.getElementById("closeReservationsModal");
 
-    // Add an event listener to the close button
-    closeModal.addEventListener("click", () => {
-      editModal.style.display = "none";
-    });
+closeEditModal.addEventListener("click", () => {
+  editModal.style.display = "none";
+});
+
+closeReviewsModal.addEventListener("click", () => {
+  reviewsModal.style.display = "none";
+});
+
+closeReservationsModal.addEventListener("click", () => {
+  reservationsModal.style.display = "none";
+});
 
     // Create a new Mediator instance
     const mediator = new Mediator();

@@ -353,11 +353,11 @@
           const review = reviews[i];
           const reviewElement = document.createElement("p");
           reviewElement.textContent = `Review ${i + 1}:
-                Reservation ID: ${review.reservation_id}
-                Text: ${review.text}
-                Rating: ${review.rating}
-                ID: ${review.id}
-                Owner: ${review.owner}`;
+                Listing ID: ${review.reservation_id} ||
+                Text: "${review.text}" ||
+                Rating: ${review.rating} stars ||
+                Reservation ID: ${review.id} ||
+                Owner: ${review.owner}`; 
           reviewsContainer.appendChild(reviewElement);
         }
 
