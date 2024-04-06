@@ -260,82 +260,93 @@
         }
 
         // When the user clicks on confirm, alert and close the modal
-        confirmButton.onclick = function () {
-            // Get the start and end dates from the input fields
-            const startDate = new Date(document.getElementById("startDate").value);
-            const endDate = new Date(document.getElementById("endDate").value);
+        confirmButton.onclick = async function () {
+    // Get the start and end dates from the input fields
+    const startDate = new Date(document.getElementById("startDate").value);
+    const endDate = new Date(document.getElementById("endDate").value);
 
-            // Extract JWT from Cookie in Browser
-            let cookies = decodeURIComponent(document.cookie);
-            let token = cookies.slice(21, -1)
+    // Extract JWT from Cookie in Browser
+    let cookies = decodeURIComponent(document.cookie);
+    let token = cookies.slice(21, -1)
 
-            // Decode Token
-            let decoded = atob(token.split('.')[1]);
+    // Decode Token
+    let decoded = atob(token.split('.')[1]);
 
-            // Extract Owner ID String
-            let ownerID = decoded.split(',')[1].slice(7,-2);
+    // Extract Owner ID String
+    let ownerID = decoded.split(',')[1].slice(7,-2);
 
-            // Fetch the listing data
-            fetch(`/listing/${listing_id}`)
+    // Fetch the listing data
+    fetch(`/listing/${listing_id}`)
+        .then(response => response.json())
+        .then(async listingData => {
+            // Check if the current user is the owner of the listing
+            if (listingData.owner === ownerID) {
+                alert("You cannot book your own listing.");
+                return;
+            }
+            // Check if the selected dates fall within any of the available date ranges
+            let isDateInRange = false;
+            for (let i = 0; i < listingData.date_ranges.length; i++) {
+                const [rangeStartDate, rangeEndDate] = listingData.date_ranges[i];
+                const rangeStart = new Date(rangeStartDate);
+                const rangeEnd = new Date(rangeEndDate);
+                // Add one day to the end date to make it inclusive
+                rangeEnd.setDate(rangeEnd.getDate() + 1);
+                if (startDate >= rangeStart && endDate <= rangeEnd) {
+                    isDateInRange = true;
+                    break;
+                }
+            }
+
+            if (!isDateInRange) {
+                alert("The selected dates are not available for this listing.");
+                return;
+            }
+
+            // Fetch the existing reservations for the listing
+            const reservations = await fetch(`/reservation/${listing_id}`).then(response => response.json());
+            // Check if there is already a reservation on the selected dates
+            for (let i = 0; i < reservations.length; i++) {
+                const reservation = reservations[i];
+                const reservationStartDate = new Date(reservation.start_date);
+                const reservationEndDate = new Date(reservation.end_date);
+                if ((startDate >= reservationStartDate && startDate <= reservationEndDate) ||
+                    (endDate >= reservationStartDate && endDate <= reservationEndDate)) {
+                    alert("The listing is already reserved between those dates.");
+                    return;
+                }
+            }
+
+            const data = {
+                listing_id: listing_id, // use the listing_id passed as a parameter
+                start_date: startDate.toISOString().split('T')[0], // convert Date object to YYYY-MM-DD format
+                end_date: endDate.toISOString().split('T')[0], // convert Date object to YYYY-MM-DD format
+            };
+
+            // Make the POST request
+            fetch('/reservation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
                 .then(response => response.json())
-                .then(listingData => {
-                    // Check if the current user is the owner of the listing
-                    console.log(listingData)
-                    console.log(listingData.owner)
-                    console.log(ownerID)
-                    if (listingData.owner === ownerID) {
-                        alert("You cannot book your own listing.");
-                        return;
+                .then(data => {
+                    // If the server returned an error, display it
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        // Otherwise, show a success message and close the modal
+                        alert("You have successfully booked the listing!");
+                        modal.style.display = "none";
                     }
-                    // Check if the selected dates fall within any of the available date ranges
-                    let isDateInRange = false;
-                    for (let i = 0; i < listingData.date_ranges.length; i++) {
-                        const [rangeStartDate, rangeEndDate] = listingData.date_ranges[i];
-                        const rangeStart = new Date(rangeStartDate);
-                        const rangeEnd = new Date(rangeEndDate);
-                        // Add one day to the end date to make it inclusive
-                        rangeEnd.setDate(rangeEnd.getDate() + 1);
-                        if (startDate >= rangeStart && endDate <= rangeEnd) {
-                            isDateInRange = true;
-                            break;
-                        }
-                    }
-
-                    if (!isDateInRange) {
-                        alert("The selected dates are not available for this listing.");
-                        return;
-                    }
-
-                    const data = {
-                        listing_id: listing_id, // use the listing_id passed as a parameter
-                        start_date: startDate.toISOString().split('T')[0], // convert Date object to YYYY-MM-DD format
-                        end_date: endDate.toISOString().split('T')[0], // convert Date object to YYYY-MM-DD format
-                    };
-
-                    // Make the POST request
-                    fetch('/reservation', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data),
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            // If the server returned an error, display it
-                            if (data.error) {
-                                alert(data.error);
-                            } else {
-                                // Otherwise, show a success message and close the modal
-                                alert("You have successfully booked the listing!");
-                                modal.style.display = "none";
-                            }
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
-                        });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
                 });
-        }
+        }); // This is where the closing bracket and parenthesis should be
+};
 
 
         // When the user clicks on cancel, close the modal
