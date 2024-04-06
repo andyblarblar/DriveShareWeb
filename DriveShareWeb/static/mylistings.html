@@ -190,8 +190,7 @@
                     </table>
                     <div class="button-container">
                         <button id=EditButton-${id} class="my-listing-button" type="button">Edit</button>
-                        <button class="my-listing-button" type="button" onclick="viewListing()">View</button>
-                        <button class="my-listing-button" type="button">Review</button>
+                        <button class="my-listing-button" type="button" onclick="viewListing(${id})">View</button>
                         </div>
                         `;
                     const editButton = listingContent.querySelector(`#EditButton-${id}`);
@@ -322,11 +321,7 @@
             });
 
 
-        function viewListing() {
-            // ######### NEED WAY OF GETTING LISTING ID FROM LISTING PAGE #########
-            // I have no idea how to do so, as buttons/search listings are automatically generated
-            // Temp value for now.
-            let listingID = 1
+        function viewListing(listingID) {
             window.location.href = `/individuallisting?listingID=${listingID}`
         }
 
