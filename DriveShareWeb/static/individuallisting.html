@@ -42,23 +42,159 @@
 
     <!-- Begin Page Content -->
     <p>Listing page</p>
+    <style>
+        .split-container {
+            display: flex;
+            align-items: flex-start;
+            /* Updated: align items to flex-start */
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+            /* Added: set position to relative */
+        }
+
+        .left-side,
+        .right-side {
+            flex: 1;
+            text-align: center;
+        }
+
+        .left-side {
+            border-right: 1px solid black;
+            padding-right: 20px;
+        }
+
+        .search-Button {
+            margin-top: 20px;
+            /* Added: set margin-top to create space */
+        }
+    </style>
+
+    <div>
+        <h1 class="centered-text" style="text-align: center;">Listing Reviews</h1>
+        <dl id="listingGrid" class="listingsContainer"></dl>
+    </div>
+
 </body>
 
 <script>
+
+    function createListingElement(listing) {
+        let model = '';
+        let year = '';
+        let mileage = '';
+        let location = '';
+        let price = '';
+        let dateRanges = '';
+        let id = '';
+        let owner = '';
+
+        return {
+            addModel: function (value) {
+                model = value;
+                return this;
+            },
+            addYear: function (value) {
+                year = value;
+                return this;
+            },
+            addMileage: function (value) {
+                mileage = value;
+                return this;
+            },
+            addLocation: function (value) {
+                location = value;
+                return this;
+            },
+            addPrice: function (value) {
+                price = value;
+                return this;
+            },
+            addDateRanges: function (value) {
+                dateRanges = value;
+                return this;
+            },
+            addId: function (value) {
+                id = value;
+                return this;
+            },
+            addOwner: function (value) {
+                owner = value;
+                return this;
+            },
+            build: function () {
+                const listingElement = document.createElement('div');
+                listingElement.classList.add('minimalistBlack'); // CSS for this at bottom of code
+
+                const listingContent = document.createElement('div');
+                listingContent.innerHTML = `
+                    <table class="minimalistBlack">
+                        <tr>
+                            <td>Model</td><td>Year</td><td>Mileage</td><td>Location</td><td>Price per day</td><td>Start Date   -   End Date</td><td>ID</td><td>Owner</td>
+                        </tr>
+                        <tr>
+                        <td class="model">${model}</td>
+                        <td class="year">${year}</td>
+                        <td class="mileage">${mileage}</td>
+                        <td class="location">${location}</td>
+                        <td class="price">$${price}</td>
+                        <td class="dateRanges">${dateRanges}</td>
+                        <td class="id">${id}</td>
+                        <td class="owner">${owner}</td>                    
+                    </tr>
+                    </table>`;
+                listingElement.appendChild(listingContent);
+                return listingElement;
+            }
+
+        };
+    }
+
+
+    function showListings() {
+        const params = new URLSearchParams(window.location.search)
+        let listingID = params.get('listingID');
+        
+        fetch(`/listing/${listingID}`)
+            .then(response => response.json())
+            .then(data => {
+                const listingsContainer = document.getElementById('listingGrid');
+                listingsContainer.innerHTML = '';
+
+                data.forEach(listing => {
+                    const listingElement = createListingElement(listing)
+                        .addModel(listing.model)
+                        .addYear(listing.year)
+                        .addMileage(listing.mileage)
+                        .addLocation(listing.location)
+                        .addPrice(listing.price)
+                        .addDateRanges(listing.date_ranges)
+                        .addId(listing.id)
+                        .addOwner(listing.owner)
+                        .build();
+
+                    listingsContainer.appendChild(listingElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+
     // Calls getReviews on page load
     window.onload = function () {
         getReviews();
     }
 
+
     // Gets Reviews to display
     async function getReviews() {
-        // ######### NEED WAY OF GETTING LISTING ID FROM LISTING PAGE #########
-        // I have no idea how to do so, as buttons/search listings are automatically generated
-        // Temp value for now.
-        let idVar = 1
+        const params = new URLSearchParams(window.location.search)
+        let listingID = params.get('listingID');
 
         // GET reservations json for listing
-        let response = await fetch(`/reservation/${idVar}`);
+        let response = await fetch(`/reservation/${listingID}`);
         let allReservations = await response.json();
 
         // Loop through list of reservations
@@ -74,8 +210,7 @@
                 let obj2 = review[j]
 
                 // Temp log review --->>>!!! Eventually should display reviews on page
-                console.log(obj2.text)
-                console.log(obj2.rating)
+                console.log(obj2.text, obj2.rating)
             }
         }
     }
