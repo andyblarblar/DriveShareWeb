@@ -1,406 +1,572 @@
 <!DOCTYPE html>
 
 <header>
-    <title>Search</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
-        integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="static/styles.css">
+  <title>Search</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
+    integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls"
+    crossorigin="anonymous"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="static/styles.css" />
 </header>
 
 <body>
-    <!-- Copy & Paste to Home, Listings, Reservations, etc (But not Login/Signup)-->
-    <!-- Top Navbar -->
-    <div id="header">
-        <div id="nav-boxes" class="pure-g">
-            <a class="pure-u-1-3 nav-box" id="assign-box" href="/">
-                Home
-            </a>
-            <a class="pure-u-1-3 nav-box" id="assign-box" href="/searchlistings">
-                Search
-            </a>
-            <a class="pure-u-1-3 nav-box" id="assign-box" href="/mylistings">
-                My Listings
-            </a>
-            <a class="pure-u-1-3 nav-box" id="assign-box" href="/myreservations">
-                My Reservations
-            </a>
-            <a class="pure-u-1-3 nav-box" id="assign-box">
-                Balance: $<span id="balance"></span>
-            </a>
-        </div>
-        <div id="logout">
-            <a id="logout-icon-holder" href="/logout">
-                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                    <path
-                        d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" />
-                </svg>
-            </a>
-        </div>
+  <!-- Copy & Paste to Home, Listings, Reservations, etc (But not Login/Signup)-->
+  <!-- Top Navbar -->
+  <div id="header">
+    <div id="nav-boxes" class="pure-g">
+      <a class="pure-u-1-3 nav-box" id="assign-box" href="/"> Home </a>
+      <a class="pure-u-1-3 nav-box" id="assign-box" href="/searchlistings">
+        Search
+      </a>
+      <a class="pure-u-1-3 nav-box" id="assign-box" href="/mylistings">
+        My Listings
+      </a>
+      <a class="pure-u-1-3 nav-box" id="assign-box" href="/myreservations">
+        My Reservations
+      </a>
+      <a class="pure-u-1-3 nav-box" id="assign-box">
+        Balance: $<span id="balance"></span>
+      </a>
     </div>
-    <!-- End Navbar -->
-
-
-    <!-- Begin Page Content -->
-    <div class="search-container">
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <p class="searchlisting" style="font-family: 'Arial', sans-serif; font-size: 24px; color: 
-            #000000;">Search for Listings</p>
-            <div style="display: flex; justify-content: space-between;">
-                <button id="listButton" class="search-button" type="button" onclick="alert('Getting Listings')">Get Listings</button>
-                <div style="width: 50px;"></div>
-                <button id="clearButton" class="search-button" type="button" onclick="clearInputs()">Clear</button>
-            </div>
-        </div>
-        <div style="display: flex; justify-content: center; margin-top: 10px; margin-bottom: 10px;">
-            <input id="modelInput" class="getinput" type="text" placeholder="Enter model">
-            <div style="width: 10px;"></div>
-            <input id="yearInput" class="getinput" type="text" placeholder="Enter year">
-            <div style="width: 10px;"></div>
-            <input id="milesInput" class="getinput" type="text" placeholder="Enter miles">
-            <div style="width: 10px;"></div>
-            <input id="locationInput" class="getinput" type="text" placeholder="Enter location">
-            <div style="width: 10px;"></div>
-            <input id="costInput" class="getinput" type="text" placeholder="Enter cost">
-            <div style="width: 10px;"></div>
-            <input id="dateInput" class="getinput" type="datetime-local" placeholder="Enter dates needed">
-            <div style="width: 10px;"></div>
-        </div>
+    <div id="logout">
+      <a id="logout-icon-holder" href="/logout">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="1em"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"
+          />
+        </svg>
+      </a>
     </div>
+  </div>
+  <!-- End Navbar -->
 
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Are you sure you want to book this listing?</p>
-            <label for="startDate">Start date:</label>
-            <input type="date" id="startDate">
-            <label for="endDate">End date:</label>
-            <input type="date" id="endDate">
-            <button id="confirmButton" type="button">Confirm</button>
-            <button id="cancelButton" type="button">Cancel</button>
-        </div>
+  <!-- Begin Page Content -->
+  <div class="search-container">
+    <div style="display: flex; flex-direction: column; align-items: center">
+      <p
+        class="searchlisting"
+        style="
+          font-family: 'Arial', sans-serif;
+          font-size: 24px;
+          color: #000000;
+        "
+      >
+        Search for Listings
+      </p>
+      <div style="display: flex; justify-content: space-between">
+        <button
+          id="listButton"
+          class="search-button"
+          type="button"
+          onclick="alert('Getting Listings')"
+        >
+          Get Listings
+        </button>
+        <div style="width: 50px"></div>
+        <button
+          id="clearButton"
+          class="search-button"
+          type="button"
+          onclick="clearInputs()"
+        >
+          Clear
+        </button>
+      </div>
     </div>
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      "
+    >
+      <input
+        id="modelInput"
+        class="getinput"
+        type="text"
+        placeholder="Enter model"
+      />
+      <div style="width: 10px"></div>
+      <input
+        id="yearInput"
+        class="getinput"
+        type="text"
+        placeholder="Enter year"
+      />
+      <div style="width: 10px"></div>
+      <input
+        id="milesInput"
+        class="getinput"
+        type="text"
+        placeholder="Enter miles"
+      />
+      <div style="width: 10px"></div>
+      <input
+        id="locationInput"
+        class="getinput"
+        type="text"
+        placeholder="Enter location"
+      />
+      <div style="width: 10px"></div>
+      <input
+        id="costInput"
+        class="getinput"
+        type="text"
+        placeholder="Enter cost"
+      />
+      <div style="width: 10px"></div>
+      <input
+        id="dateInput"
+        class="getinput"
+        type="datetime-local"
+        placeholder="Enter dates needed"
+      />
+      <div style="width: 10px"></div>
+    </div>
+  </div>
 
-    <script>
-        function clearInputs() {
-            document.getElementById("modelInput").value = "";
-            document.getElementById("yearInput").value = "";
-            document.getElementById("milesInput").value = "";
-            document.getElementById("locationInput").value = "";
-            document.getElementById("costInput").value = "";
-            document.getElementById("dateInput").value = "";
-        }
-    </script>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Are you sure you want to book this listing?</p>
+      <label for="startDate">Start date:</label>
+      <input type="date" id="startDate" />
+      <label for="endDate">End date:</label>
+      <input type="date" id="endDate" />
+      <button id="confirmButton" type="button">Confirm</button>
+      <button id="cancelButton" type="button">Cancel</button>
+    </div>
+  </div>
 
-    <!-- Empty Description List to fill with Listings -->
-    <dl id="listingGrid" class="listingContainer"></dl>
+  <div id="reviewsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Reviews:</p>
+      <div id="reviewsContainer"></div>
+    </div>
+  </div>
 
+  <script>
+    function clearInputs() {
+      document.getElementById("modelInput").value = "";
+      document.getElementById("yearInput").value = "";
+      document.getElementById("milesInput").value = "";
+      document.getElementById("locationInput").value = "";
+      document.getElementById("costInput").value = "";
+      document.getElementById("dateInput").value = "";
+    }
+  </script>
+
+  <!-- Empty Description List to fill with Listings -->
+  <dl id="listingGrid" class="listingContainer"></dl>
 </body>
 
 <script>
-    class ListingBuilder {
-        constructor() {
-            this.listing = document.createElement("table");
-            this.listing.className = "listing-table";
-        }
-
-        addProperty(name, value) {
-            const row = document.createElement("tr");
-
-            const nameCell = document.createElement("td");
-            const nameBox = document.createElement("div");
-            nameBox.className = "property-box";
-            nameBox.appendChild(document.createTextNode(name));
-            nameCell.appendChild(nameBox);
-            row.appendChild(nameCell);
-
-            const valueCell = document.createElement("td");
-            const valueBox = document.createElement("div");
-            valueBox.className = "property-box";
-            valueBox.appendChild(document.createTextNode(value));
-            valueCell.appendChild(valueBox);
-            row.appendChild(valueCell);
-
-            this.listing.appendChild(row);
-
-            return this;
-        }
-
-        build() {
-            return this.listing;
-        }
+  class ListingBuilder {
+    constructor() {
+      this.listing = document.createElement("table");
+      this.listing.className = "listing-table";
     }
 
-    const getList = document.getElementById("listButton");
-    getList.addEventListener("click", displayListings);
+    addProperty(name, value) {
+      const row = document.createElement("tr");
 
-    // Gets & Displays Listings
-    // Probably a much better way to do this.
-    async function displayListings() {
-        // Check if the listing container already exists
-        let listingBox = document.getElementById("listingGrid");
-        if (listingBox) {
-            // If it exists, clear its content
-            listingBox.innerHTML = "";
-        } else {
-            // If it doesn't exist, create a new container
-            listingBox = document.createElement("dl");
-            listingBox.id = "listingGrid";
-            listingBox.className = "listingContainer";
-        }
+      const nameCell = document.createElement("td");
+      const nameBox = document.createElement("div");
+      nameBox.className = "property-box";
+      nameBox.appendChild(document.createTextNode(name));
+      nameCell.appendChild(nameBox);
+      row.appendChild(nameCell);
 
-        // Fetch Listing JSON
-        const response = await fetch("/listing");
-        const allListings = await response.json();
+      const valueCell = document.createElement("td");
+      const valueBox = document.createElement("div");
+      valueBox.className = "property-box";
+      valueBox.appendChild(document.createTextNode(value));
+      valueCell.appendChild(valueBox);
+      row.appendChild(valueCell);
 
-        // Get the query input values
-        const modelInput = document.getElementById("modelInput").value;
-        const yearInput = document.getElementById("yearInput").value;
-        const milesInput = document.getElementById("milesInput").value;
-        const locationInput = document.getElementById("locationInput").value;
-        const costInput = document.getElementById("costInput").value;
-        const dateInput = document.getElementById("dateInput").value;
+      this.listing.appendChild(row);
 
-        // Filter the listings based on the query inputs
-        const filteredListings = allListings.filter(listingData => {
-            if (modelInput && !listingData.model.toLowerCase().includes(modelInput.toLowerCase())) {
-                return false;
-            }
-            if (yearInput && listingData.year < parseInt(yearInput)) {
-                return false;
-            }
-            if (milesInput && listingData.mileage > parseInt(milesInput)) {
-                return false;
-            }
-            if (locationInput && !listingData.location.toLowerCase().includes(locationInput.toLowerCase())) {
-                return false;
-            }
-            if (costInput && listingData.price > parseFloat(costInput)) {
-                return false;
-            }
-            if (dateInput) {
-                const selectedDate = new Date(dateInput);
-                let isDateInRange = false;
-                for (let i = 0; i < listingData.date_ranges.length; i++) {
-                    const [startDate, endDate] = listingData.date_ranges[i];
-                    const start = new Date(startDate);
-                    const end = new Date(endDate);
-                    // Add one day to the end date to make it inclusive
-                    end.setDate(end.getDate() + 1);
-                    if (selectedDate >= start && selectedDate < end) {
-                        isDateInRange = true;
-                        break;
-                    }
-                }
-                if (!isDateInRange) {
-                    return false;
-                }
-            }
-            return true;
-        });
-
-        // For every listing in the filtered list
-        for (let i = 0; i < filteredListings.length; i++) {
-            const listingData = filteredListings[i];
-
-            // Create Listing using the builder pattern
-            const listing = new ListingBuilder()
-                .addProperty("ID", listingData.id)
-                .addProperty("Model", listingData.model)
-                .addProperty("Year", listingData.year)
-                .addProperty("Mileage", listingData.mileage)
-                .addProperty("Location", listingData.location)
-                .addProperty("Price", "$" + listingData.price)
-                .addProperty("Dates Available", listingData.date_ranges)
-                .addProperty("Owner", listingData.owner)
-                .build();
-
-            // Create the "Reserve your ride!" button
-            const reserveButton = document.createElement("button");
-            reserveButton.textContent = "Reserve your ride!";
-            reserveButton.classList.add("search-button");
-
-            reserveButton.addEventListener("click", function () {
-                reserveListing(listingData.id);
-            });
-            // Add the button to the listing
-            const buttonCell = document.createElement("td");
-            buttonCell.appendChild(reserveButton);
-            const buttonRow = document.createElement("tr");
-            buttonRow.appendChild(buttonCell);
-            listing.appendChild(buttonRow);
-
-            // Add the listing to the description list
-            listingBox.appendChild(listing);
-        }
-
-        // Append the listing container to the page if it's a new container
-        if (!document.getElementById("listingGrid")) {
-            document.body.appendChild(listingBox);
-        }
+      return this;
     }
 
-    function reserveListing(listing_id) {
+    build() {
+      return this.listing;
+    }
+  }
+
+  const getList = document.getElementById("listButton");
+  getList.addEventListener("click", displayListings);
+
+  // Gets & Displays Listings
+  // Probably a much better way to do this.
+  async function displayListings() {
+    // Check if the listing container already exists
+    let listingBox = document.getElementById("listingGrid");
+    if (listingBox) {
+      // If it exists, clear its content
+      listingBox.innerHTML = "";
+    } else {
+      // If it doesn't exist, create a new container
+      listingBox = document.createElement("dl");
+      listingBox.id = "listingGrid";
+      listingBox.className = "listingContainer";
+    }
+
+    // Fetch Listing JSON
+    const response = await fetch("/listing");
+    const allListings = await response.json();
+
+    // Get the query input values
+    const modelInput = document.getElementById("modelInput").value;
+    const yearInput = document.getElementById("yearInput").value;
+    const milesInput = document.getElementById("milesInput").value;
+    const locationInput = document.getElementById("locationInput").value;
+    const costInput = document.getElementById("costInput").value;
+    const dateInput = document.getElementById("dateInput").value;
+
+    // Filter the listings based on the query inputs
+    const filteredListings = allListings.filter((listingData) => {
+      if (
+        modelInput &&
+        !listingData.model.toLowerCase().includes(modelInput.toLowerCase())
+      ) {
+        return false;
+      }
+      if (yearInput && listingData.year < parseInt(yearInput)) {
+        return false;
+      }
+      if (milesInput && listingData.mileage > parseInt(milesInput)) {
+        return false;
+      }
+      if (
+        locationInput &&
+        !listingData.location
+          .toLowerCase()
+          .includes(locationInput.toLowerCase())
+      ) {
+        return false;
+      }
+      if (costInput && listingData.price > parseFloat(costInput)) {
+        return false;
+      }
+      if (dateInput) {
+        const selectedDate = new Date(dateInput);
+        let isDateInRange = false;
+        for (let i = 0; i < listingData.date_ranges.length; i++) {
+          const [startDate, endDate] = listingData.date_ranges[i];
+          const start = new Date(startDate);
+          const end = new Date(endDate);
+          // Add one day to the end date to make it inclusive
+          end.setDate(end.getDate() + 1);
+          if (selectedDate >= start && selectedDate < end) {
+            isDateInRange = true;
+            break;
+          }
+        }
+        if (!isDateInRange) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    // For every listing in the filtered list
+    for (let i = 0; i < filteredListings.length; i++) {
+      const listingData = filteredListings[i];
+
+      // Create Listing using the builder pattern
+      const listing = new ListingBuilder()
+        .addProperty("ID", listingData.id)
+        .addProperty("Model", listingData.model)
+        .addProperty("Year", listingData.year)
+        .addProperty("Mileage", listingData.mileage)
+        .addProperty("Location", listingData.location)
+        .addProperty("Price", "$" + listingData.price)
+        .addProperty("Dates Available", listingData.date_ranges)
+        .addProperty("Owner", listingData.owner)
+        .build();
+
+      // Create the "Reserve your ride!" button
+      const reserveButton = document.createElement("button");
+      reserveButton.textContent = "Reserve your ride!";
+      reserveButton.classList.add("search-button");
+
+      reserveButton.addEventListener("click", function () {
+        reserveListing(listingData.id);
+      });
+
+      // Create the "See Reviews" button
+      const seeReviewsButton = document.createElement("button");
+      seeReviewsButton.textContent = "See Reviews";
+      seeReviewsButton.classList.add("search-button");
+
+      seeReviewsButton.addEventListener("click", function () {
+        seeReviews(listingData.id);
+      });
+
+      // Add the button to the listing
+      const buttonCell = document.createElement("td");
+      buttonCell.appendChild(reserveButton);
+
+      // Create a spacer element
+      const spacer = document.createElement("span");
+      spacer.style.display = "inline-block";
+      spacer.style.width = "30px";
+      buttonCell.appendChild(spacer);
+
+      buttonCell.appendChild(seeReviewsButton);
+      const buttonRow = document.createElement("tr");
+      buttonRow.appendChild(buttonCell);
+      listing.appendChild(buttonRow);
+
+      // Add the listing to the description list
+      listingBox.appendChild(listing);
+    }
+
+    // Append the listing container to the page if it's a new container
+    if (!document.getElementById("listingGrid")) {
+      document.body.appendChild(listingBox);
+    }
+  }
+
+  function seeReviews(listing_id) {
+    // Fetch the reviews for the listing
+    fetch(`/review/${listing_id}`)
+      .then((response) => response.json())
+      .then((reviews) => {
+        // Get the reviews container
+        const reviewsContainer = document.getElementById("reviewsContainer");
+        // Clear any existing reviews
+        reviewsContainer.innerHTML = "";
+
+        // Add each review to the container
+        for (let i = 0; i < reviews.length; i++) {
+          const review = reviews[i];
+          const reviewElement = document.createElement("p");
+          reviewElement.textContent = `Review ${i + 1}:
+                Reservation ID: ${review.reservation_id}
+                Text: ${review.text}
+                Rating: ${review.rating}
+                ID: ${review.id}
+                Owner: ${review.owner}`;
+          reviewsContainer.appendChild(reviewElement);
+        }
+
         // Get the modal
-        var modal = document.getElementById("myModal");
+        const modal = document.getElementById("reviewsModal");
 
         // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
+        // Get all the <span> elements that close the modals
+        const closeButtons = document.getElementsByClassName("close");
 
-        // Get the confirm and cancel buttons
-        var confirmButton = document.getElementById("confirmButton");
-        var cancelButton = document.getElementById("cancelButton");
+        // Add an event listener to each close button
+        for (let i = 0; i < closeButtons.length; i++) {
+          const closeButton = closeButtons[i];
+          closeButton.onclick = function () {
+            // Get the modal that this close button is a part of
+            let modal = closeButton;
+            while (modal.className !== "modal") {
+              modal = modal.parentElement;
+            }
+            // Hide the modal
+            modal.style.display = "none";
+          };
+        }
 
-        // When the user clicks on the button, open the modal 
+        // When the user clicks on the button, open the modal
         modal.style.display = "block";
 
         // When the user clicks on <span> (x), close the modal
         span.onclick = function () {
-            modal.style.display = "none";
-        }
-
-        // When the user clicks on confirm, alert and close the modal
-        confirmButton.onclick = async function () {
-    // Get the start and end dates from the input fields
-    const startDate = new Date(document.getElementById("startDate").value);
-    const endDate = new Date(document.getElementById("endDate").value);
-
-    // Extract JWT from Cookie in Browser
-    let cookies = decodeURIComponent(document.cookie);
-    let token = cookies.slice(21, -1)
-
-    // Decode Token
-    let decoded = atob(token.split('.')[1]);
-
-    // Extract Owner ID String
-    let ownerID = decoded.split(',')[1].slice(7,-2);
-
-    // Fetch the listing data
-    fetch(`/listing/${listing_id}`)
-        .then(response => response.json())
-        .then(async listingData => {
-            // Check if the current user is the owner of the listing
-            if (listingData.owner === ownerID) {
-                alert("You cannot book your own listing.");
-                return;
-            }
-            // Check if the selected dates fall within any of the available date ranges
-            let isDateInRange = false;
-            for (let i = 0; i < listingData.date_ranges.length; i++) {
-                const [rangeStartDate, rangeEndDate] = listingData.date_ranges[i];
-                const rangeStart = new Date(rangeStartDate);
-                const rangeEnd = new Date(rangeEndDate);
-                // Add one day to the end date to make it inclusive
-                rangeEnd.setDate(rangeEnd.getDate() + 1);
-                if (startDate >= rangeStart && endDate <= rangeEnd) {
-                    isDateInRange = true;
-                    break;
-                }
-            }
-
-            if (!isDateInRange) {
-                alert("The selected dates are not available for this listing.");
-                return;
-            }
-
-            // Fetch the existing reservations for the listing
-            const reservations = await fetch(`/reservation/${listing_id}`).then(response => response.json());
-            // Check if there is already a reservation on the selected dates
-            for (let i = 0; i < reservations.length; i++) {
-                const reservation = reservations[i];
-                const reservationStartDate = new Date(reservation.start_date);
-                const reservationEndDate = new Date(reservation.end_date);
-                if ((startDate >= reservationStartDate && startDate <= reservationEndDate) ||
-                    (endDate >= reservationStartDate && endDate <= reservationEndDate)) {
-                    alert("The listing is already reserved between those dates.");
-                    return;
-                }
-            }
-
-            const data = {
-                listing_id: listing_id, // use the listing_id passed as a parameter
-                start_date: startDate.toISOString().split('T')[0], // convert Date object to YYYY-MM-DD format
-                end_date: endDate.toISOString().split('T')[0], // convert Date object to YYYY-MM-DD format
-            };
-
-            // Make the POST request
-            fetch('/reservation', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // If the server returned an error, display it
-                    if (data.error) {
-                        alert(data.error);
-                    } else {
-                        // Otherwise, show a success message and close the modal
-                        alert("You have successfully booked the listing!");
-                        modal.style.display = "none";
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        }); // This is where the closing bracket and parenthesis should be
-};
-
-
-        // When the user clicks on cancel, close the modal
-        cancelButton.onclick = function () {
-            modal.style.display = "none";
-        }
+          modal.style.display = "none";
+        };
 
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    }
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        };
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
 
-    fetch('/balance')
-        .then(response => response.json())
-        .then(balance => {
-            document.getElementById('balance').textContent += balance;
+  function reserveListing(listing_id) {
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // Get the confirm and cancel buttons
+    var confirmButton = document.getElementById("confirmButton");
+    var cancelButton = document.getElementById("cancelButton");
+
+    // When the user clicks on the button, open the modal
+    modal.style.display = "block";
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = "none";
+    };
+
+    // When the user clicks on confirm, alert and close the modal
+    confirmButton.onclick = async function () {
+      // Get the start and end dates from the input fields
+      const startDate = new Date(document.getElementById("startDate").value);
+      const endDate = new Date(document.getElementById("endDate").value);
+
+      // Extract JWT from Cookie in Browser
+      let cookies = decodeURIComponent(document.cookie);
+      let token = cookies.slice(21, -1);
+
+      // Decode Token
+      let decoded = atob(token.split(".")[1]);
+
+      // Extract Owner ID String
+      let ownerID = decoded.split(",")[1].slice(7, -2);
+
+      // Fetch the listing data
+      fetch(`/listing/${listing_id}`)
+        .then((response) => response.json())
+        .then(async (listingData) => {
+          // Check if the current user is the owner of the listing
+          if (listingData.owner === ownerID) {
+            alert("You cannot book your own listing.");
+            return;
+          }
+          // Check if the selected dates fall within any of the available date ranges
+          let isDateInRange = false;
+          for (let i = 0; i < listingData.date_ranges.length; i++) {
+            const [rangeStartDate, rangeEndDate] = listingData.date_ranges[i];
+            const rangeStart = new Date(rangeStartDate);
+            const rangeEnd = new Date(rangeEndDate);
+            // Add one day to the end date to make it inclusive
+            rangeEnd.setDate(rangeEnd.getDate() + 1);
+            if (startDate >= rangeStart && endDate <= rangeEnd) {
+              isDateInRange = true;
+              break;
+            }
+          }
+
+          if (!isDateInRange) {
+            alert("The selected dates are not available for this listing.");
+            return;
+          }
+
+          // Fetch the existing reservations for the listing
+          const reservations = await fetch(`/reservation/${listing_id}`).then(
+            (response) => response.json()
+          );
+          // Check if there is already a reservation on the selected dates
+          for (let i = 0; i < reservations.length; i++) {
+            const reservation = reservations[i];
+            const reservationStartDate = new Date(reservation.start_date);
+            const reservationEndDate = new Date(reservation.end_date);
+            if (
+              (startDate >= reservationStartDate &&
+                startDate <= reservationEndDate) ||
+              (endDate >= reservationStartDate && endDate <= reservationEndDate)
+            ) {
+              alert("The listing is already reserved between those dates.");
+              return;
+            }
+          }
+
+          const data = {
+            listing_id: listing_id, // use the listing_id passed as a parameter
+            start_date: startDate.toISOString().split("T")[0], // convert Date object to YYYY-MM-DD format
+            end_date: endDate.toISOString().split("T")[0], // convert Date object to YYYY-MM-DD format
+          };
+
+          // Make the POST request
+          fetch("/reservation", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // If the server returned an error, display it
+              if (data.error) {
+                alert(data.error);
+              } else {
+                // Otherwise, show a success message and close the modal
+                alert("You have successfully booked the listing!");
+                modal.style.display = "none";
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
         });
+    };
+
+    // When the user clicks on cancel, close the modal
+    cancelButton.onclick = function () {
+      modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  }
+
+  fetch("/balance")
+    .then((response) => response.json())
+    .then((balance) => {
+      document.getElementById("balance").textContent += balance;
+    });
 </script>
 
 <style>
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-    }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 
-    .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
-    }
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
 
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
 
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
 </style>
