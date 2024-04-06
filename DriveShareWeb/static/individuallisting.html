@@ -1,218 +1,628 @@
 <!DOCTYPE html>
 
 <header>
-    <title>Listing Page</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
-        integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="static/styles.css">
+  <title>Listing Page</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
+    integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls"
+    crossorigin="anonymous"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="static/styles.css" />
 </header>
 
 <body>
-    <!-- Copy & Paste to Home, Listings, Reservations, etc (But not Login/Signup)-->
-    <!-- Top Navbar -->
-    <div id="header">
-        <div id="nav-boxes" class="pure-g">
-            <a class="pure-u-1-3 nav-box" id="assign-box" href="/">
-                Home
-            </a>
-            <a class="pure-u-1-3 nav-box" id="assign-box" href="/searchlistings">
-                Search
-            </a>
-            <a class="pure-u-1-3 nav-box" id="assign-box" href="/mylistings">
-                My Listings
-            </a>
-            <a class="pure-u-1-3 nav-box" id="assign-box" href="/myreservations">
-                My Reservations
-            </a>
-            <a class="pure-u-1-3 nav-box" id="assign-box">
-                Balance: $<span id="balance"></span>
-            </a>
-        </div>
-        <div id="logout">
-            <a id="logout-icon-holder" href="/logout">
-                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                    <path
-                        d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" />
-                </svg>
-            </a>
-        </div>
+  <!-- Copy & Paste to Home, Listings, Reservations, etc (But not Login/Signup)-->
+  <!-- Top Navbar -->
+  <div id="header">
+    <div id="nav-boxes" class="pure-g">
+      <a class="pure-u-1-3 nav-box" id="assign-box" href="/"> Home </a>
+      <a class="pure-u-1-3 nav-box" id="assign-box" href="/searchlistings">
+        Search
+      </a>
+      <a class="pure-u-1-3 nav-box" id="assign-box" href="/mylistings">
+        My Listings
+      </a>
+      <a class="pure-u-1-3 nav-box" id="assign-box" href="/myreservations">
+        My Reservations
+      </a>
+      <a class="pure-u-1-3 nav-box" id="assign-box">
+        Balance: $<span id="balance"></span>
+      </a>
     </div>
-    <!-- End Navbar -->
-
-    <!-- Begin Page Content -->
-    <p>Listing page</p>
-    <style>
-        .split-container {
-            display: flex;
-            align-items: flex-start;
-            /* Updated: align items to flex-start */
-            justify-content: center;
-            height: 100vh;
-            position: relative;
-            /* Added: set position to relative */
-        }
-
-        .left-side,
-        .right-side {
-            flex: 1;
-            text-align: center;
-        }
-
-        .left-side {
-            border-right: 1px solid black;
-            padding-right: 20px;
-        }
-
-        .search-Button {
-            margin-top: 20px;
-            /* Added: set margin-top to create space */
-        }
-    </style>
-
-    <div>
-        <h1 class="centered-text" style="text-align: center;">Listing Reviews</h1>
-        <dl id="listingGrid" class="listingsContainer"></dl>
+    <div id="logout">
+      <a id="logout-icon-holder" href="/logout">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="1em"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"
+          />
+        </svg>
+      </a>
     </div>
+  </div>
+  <!-- End Navbar -->
 
-</body>
-
-<script>
-
-    function createListingElement(listing) {
-        let model = '';
-        let year = '';
-        let mileage = '';
-        let location = '';
-        let price = '';
-        let dateRanges = '';
-        let id = '';
-        let owner = '';
-
-        return {
-            addModel: function (value) {
-                model = value;
-                return this;
-            },
-            addYear: function (value) {
-                year = value;
-                return this;
-            },
-            addMileage: function (value) {
-                mileage = value;
-                return this;
-            },
-            addLocation: function (value) {
-                location = value;
-                return this;
-            },
-            addPrice: function (value) {
-                price = value;
-                return this;
-            },
-            addDateRanges: function (value) {
-                dateRanges = value;
-                return this;
-            },
-            addId: function (value) {
-                id = value;
-                return this;
-            },
-            addOwner: function (value) {
-                owner = value;
-                return this;
-            },
-            build: function () {
-                const listingElement = document.createElement('div');
-                listingElement.classList.add('minimalistBlack'); // CSS for this at bottom of code
-
-                const listingContent = document.createElement('div');
-                listingContent.innerHTML = `
-                    <table class="minimalistBlack">
-                        <tr>
-                            <td>Model</td><td>Year</td><td>Mileage</td><td>Location</td><td>Price per day</td><td>Start Date   -   End Date</td><td>ID</td><td>Owner</td>
-                        </tr>
-                        <tr>
-                        <td class="model">${model}</td>
-                        <td class="year">${year}</td>
-                        <td class="mileage">${mileage}</td>
-                        <td class="location">${location}</td>
-                        <td class="price">$${price}</td>
-                        <td class="dateRanges">${dateRanges}</td>
-                        <td class="id">${id}</td>
-                        <td class="owner">${owner}</td>                    
-                    </tr>
-                    </table>`;
-                listingElement.appendChild(listingContent);
-                return listingElement;
-            }
-
-        };
+  <!-- Begin Page Content -->
+  <style>
+    .split-container {
+      display: flex;
+      align-items: flex-start;
+      /* Updated: align items to flex-start */
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+      /* Added: set position to relative */
     }
 
+    .left-side,
+    .right-side {
+      flex: 1;
+      text-align: center;
+    }
 
-    function showListings() {
-        const params = new URLSearchParams(window.location.search)
-        let listingID = params.get('listingID');
-        
-        fetch(`/listing/${listingID}`)
-            .then(response => response.json())
-            .then(data => {
-                const listingsContainer = document.getElementById('listingGrid');
-                listingsContainer.innerHTML = '';
+    .left-side {
+      border-right: 1px solid black;
+      padding-right: 20px;
+    }
 
-                data.forEach(listing => {
-                    const listingElement = createListingElement(listing)
-                        .addModel(listing.model)
-                        .addYear(listing.year)
-                        .addMileage(listing.mileage)
-                        .addLocation(listing.location)
-                        .addPrice(listing.price)
-                        .addDateRanges(listing.date_ranges)
-                        .addId(listing.id)
-                        .addOwner(listing.owner)
-                        .build();
+    .search-Button {
+      margin-top: 20px;
+      /* Added: set margin-top to create space */
+    }
 
-                    listingsContainer.appendChild(listingElement);
-                });
-            })
-            .catch(error => {
-                console.error('Error:', error);
+    /* The modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0); /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    }
+
+    /* Modal content */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The close button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+  <div>
+    <h1 class="centered-text" style="text-align: center">Manage Listings</h1>
+    <div class="button-container">
+      <button
+        id="createButton"
+        class="search-button"
+        type="button"
+        onclick="NewListing()"
+      >
+        Create New Listing
+      </button>
+    </div>
+    <dl id="listingGrid" class="listingsContainer"></dl>
+  </div>
+
+  <div
+    id="editModal"
+    style="
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    "
+  >
+    <div
+      style="
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      "
+    >
+      <span
+        id="closeModal"
+        style="color: #aaa; float: right; font-size: 28px; font-weight: bold"
+        >&times;</span
+      >
+      <form id="editForm">
+        <input type="text" name="model" />
+        <input type="text" name="year" />
+        <input type="text" name="mileage" />
+        <input type="text" name="location" />
+        <input type="text" name="price" />
+        <input type="text" name="dateRanges" />
+        <input type="text" name="id" />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="reviewsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Reviews:</p>
+      <div id="reviewsContainer"></div>
+    </div>
+  </div>
+
+  <div id="reservationsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Reservations:</p>
+      <div id="reservationsContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    // Redirect to the new listing page
+    function NewListing() {
+      window.location.href = "newlisting";
+    }
+
+    class Mediator {
+      constructor() {
+        this.components = {};
+      }
+
+      register(component) {
+        this.components[component.name] = component;
+        component.mediator = this;
+      }
+
+      notify(sender, event) {
+        if (event === "showListings") {
+          this.components["Listings"].showListings();
+        }
+      }
+    }
+
+    class Listings {
+      constructor(mediator) {
+        this.name = "Listings";
+        this.mediator = mediator;
+      }
+
+      showListings() {
+        fetch("/listing/self")
+          .then((response) => response.json())
+          .then((data) => {
+            // data is an array of listings
+            const listingsContainer = document.getElementById("listingGrid");
+            // Clear any existing listings
+            listingsContainer.innerHTML = "";
+
+            // Create a table
+            const table = document.createElement("table");
+            table.className = "minimalistBlack";
+
+            // Add table headers
+            const headers = [
+              "Start Date",
+              "End Date",
+              "Model",
+              "Year",
+              "Mileage",
+              "Location",
+              "Price",
+              "ID",
+              "Owner",
+              "Actions",
+            ];
+            const thead = document.createElement("thead");
+            const headerRow = document.createElement("tr");
+            headers.forEach((header) => {
+              const th = document.createElement("th");
+              th.textContent = header;
+              headerRow.appendChild(th);
             });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Add each listing to the table
+            data
+              .forEach((listing) => {
+                const tr = document.createElement("tr");
+                const details = [
+                  listing.model,
+                  listing.year,
+                  listing.mileage,
+                  listing.location,
+                  listing.price,
+                  listing.id,
+                  listing.owner,
+                ];
+                // Add start dates and end dates
+                listing.date_ranges.forEach((date_range) => {
+                  const startDateTd = document.createElement("td");
+                  startDateTd.textContent = date_range[0];
+                  tr.appendChild(startDateTd);
+
+                  const endDateTd = document.createElement("td");
+                  endDateTd.textContent = date_range[1];
+                  tr.appendChild(endDateTd);
+                });
+
+                details.forEach((detail) => {
+                  const td = document.createElement("td");
+                  td.textContent = detail;
+                  tr.appendChild(td);
+                });
+
+                function editListing(id) {
+                  // Fetch the listing details from the server
+                  fetch(`/listing/${id}`)
+                    .then((response) => response.json())
+                    .then((listing) => {
+                      // Extract the start date and end date
+                      const startDate = listing.date_ranges[0][0];
+                      const endDate = listing.date_ranges[0][1];
+
+                      // Populate a form with these details
+                      const form = document.getElementById("editForm");
+                      form.innerHTML = `
+                <table>
+                    <tr>
+                        <td>Model:</td>
+                        <td><input type="string" name="model" value="${listing.model}"></td>
+                    </tr>
+                    <tr>
+                        <td>Year:</td>
+                        <td><input type="integer" name="year" value="${listing.year}"></td>
+                    </tr>
+                    <tr>
+                        <td>Mileage:</td>
+                        <td><input type="integer" name="mileage" value="${listing.mileage}"></td>
+                    </tr>
+                    <tr>
+                        <td>Location:</td>
+                        <td><input type="string" name="location" value="${listing.location}"></td>
+                    </tr>
+                    <tr>
+                        <td>Price:</td>
+                        <td><input type="number" name="price" value="${listing.price}"></td>
+                    </tr>
+                    <tr>
+                        <td>Starting Date:</td>
+                        <td><input type="date" name="startDate" value="${startDate}"></td>
+                    </tr>
+                    <tr>
+                        <td>End Date:</td>
+                        <td><input type="date" name="endDate" value="${endDate}"></td>
+                    </tr>
+                    <tr>
+                        <td>ID:</td>
+                        <td><input type="text" name="id" value="${listing.id}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>Owner:</td>
+                        <td><input type="text" name="owner" value="${listing.owner}" readonly></td>
+                    </tr>
+                </table>
+                <button class="my-listing-button" type="submit">Save</button>
+            `;
+
+                      // Show the form
+                      const modal = document.getElementById("editModal");
+                      modal.style.display = "block";
+                      // Add an event listener to the form's submit event
+                      form.addEventListener("submit", function (event) {
+                        // Prevent the default form submission
+                        event.preventDefault();
+
+                        // Get the form data
+                        const formData = new FormData(form);
+
+                        // Convert the form data to a JSON object
+                        const data = Object.fromEntries(formData.entries());
+
+                        // Convert the start date and end date to an array of arrays
+                        data.date_ranges = [[data.startDate, data.endDate]];
+
+                        // Send a PUT request to the server with the form data
+                        fetch(`/listing`, {
+                          method: "PUT",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify(data),
+                        })
+                          .then((response) => response.json())
+                          .then((data) => {
+                            console.log("Success:", data);
+
+                            // Hide the form
+                            modal.style.display = "none";
+
+                            // Refresh the listings
+                            listings.showListings();
+                          })
+                          .catch((error) => {
+                            console.error("Error:", error);
+                          });
+                      });
+                    })
+                    .catch((error) => {
+                      console.error("Error:", error);
+                    });
+                }
+
+                function viewReviews(id) {
+                  // Fetch the reviews for the listing
+                  fetch(`/review/${id}`)
+                    .then((response) => response.json())
+                    .then((reviews) => {
+                      // Get the reviews container
+                      const reviewsContainer =
+                        document.getElementById("reviewsContainer");
+                      // Clear any existing reviews
+                      reviewsContainer.innerHTML = "";
+
+                      // Add each review to the container
+                      for (let i = 0; i < reviews.length; i++) {
+                        const review = reviews[i];
+                        const reviewElement = document.createElement("p");
+                        reviewElement.textContent = `Review ${i + 1}:
+                Reservation ID: ${review.reservation_id}
+                Text: ${review.text}
+                Rating: ${review.rating}
+                ID: ${review.id}
+                Owner: ${review.owner}`;
+                        reviewsContainer.appendChild(reviewElement);
+                      }
+
+                      // Get the modal
+                      const modal = document.getElementById("reviewsModal");
+
+                      // Get the <span> element that closes the modal
+                      const span = document.getElementsByClassName("close")[0];
+
+                      // When the user clicks on the button, open the modal
+                      modal.style.display = "block";
+
+                      // When the user clicks on <span> (x), close the modal
+                      span.onclick = function () {
+                        modal.style.display = "none";
+                      };
+
+                      // When the user clicks anywhere outside of the modal, close it
+                      window.onclick = function (event) {
+                        if (event.target == modal) {
+                          modal.style.display = "none";
+                        }
+                      };
+                    })
+                    .catch((error) => {
+                      console.error("Error:", error);
+                    });
+                }
+
+                function viewReservations(id) {
+                  // Fetch the reservations for the listing
+                  fetch(`/reservation/${id}`)
+                    .then((response) => response.json())
+                    .then((reservations) => {
+                      // Get the reservations container
+                      const reservationsContainer = document.getElementById(
+                        "reservationsContainer"
+                      );
+                      // Clear any existing reservations
+                      reservationsContainer.innerHTML = "";
+
+                      // Add each reservation to the container
+                      for (let i = 0; i < reservations.length; i++) {
+                        const reservation = reservations[i];
+                        const reservationElement = document.createElement("p");
+                        reservationElement.textContent = `Reservation ${i + 1}:
+                Listing ID: ${reservation.listing_id}
+                Start Date: ${reservation.start_date}
+                End Date: ${reservation.end_date}
+                Owner: ${reservation.owner}`;
+                        reservationsContainer.appendChild(reservationElement);
+                      }
+
+                      // Get the modal
+                      const modal =
+                        document.getElementById("reservationsModal");
+
+                      // Get all the <span> elements that close the modals
+                      const closeButtons =
+                        document.getElementsByClassName("close");
+
+                      // Add an event listener to each close button
+                      for (let i = 0; i < closeButtons.length; i++) {
+                        const closeButton = closeButtons[i];
+                        closeButton.onclick = function () {
+                          // Get the modal that this close button is a part of
+                          let modal = closeButton;
+                          while (modal.className !== "modal") {
+                            modal = modal.parentElement;
+                          }
+                          // Hide the modal
+                          modal.style.display = "none";
+                        };
+                      }
+
+                      // When the user clicks on the button, open the modal
+                      modal.style.display = "block";
+
+                      // When the user clicks on <span> (x), close the modal
+                      span.onclick = function () {
+                        modal.style.display = "none";
+                      };
+
+                      // When the user clicks anywhere outside of the modal, close it
+                      window.onclick = function (event) {
+                        if (event.target == modal) {
+                          modal.style.display = "none";
+                        }
+                      };
+                    })
+                    .catch((error) => {
+                      console.error("Error:", error);
+                    });
+                }
+
+                // Create buttons
+                const buttonNames = [
+                  "Edit",
+                  "View Reviews",
+                  "View Reservations",
+                ];
+                const td = document.createElement("td");
+                td.style.display = "flex"; // Make the buttons appear side by side
+                td.style.justifyContent = "space-around"; // Distribute the buttons evenly along the row
+                buttonNames.forEach((buttonName, index) => {
+                  const button = document.createElement("button");
+                  button.textContent = buttonName;
+                  button.className = "my-listing-button";
+
+                  // Add event listener to button
+                  button.addEventListener("click", () => {
+                    if (index === 0) {
+                      // Edit button clicked
+                      editListing(listing.id);
+                    } else if (index === 1) {
+                      // View Reviews button clicked
+                      viewReviews(listing.id);
+                    } else if (index === 2) {
+                      // View Reservations button clicked
+                      viewReservations(listing.id);
+                    }
+                  });
+
+                  td.appendChild(button); // Move this line outside of the click event listener
+                });
+                tr.appendChild(td); // Move this line outside of the forEach loop
+
+                table.appendChild(tr);
+
+                // Add the table to the listings container
+                listingsContainer.appendChild(table);
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
+          });
+      }
     }
 
+    // Get the modal and the close button
+    const editModal = document.getElementById("editModal");
+    const closeModal = document.getElementById("closeModal");
 
-    // Calls getReviews on page load
-    window.onload = function () {
-        getReviews();
+    // Add an event listener to the close button
+    closeModal.addEventListener("click", () => {
+      editModal.style.display = "none";
+    });
+
+    // Create a new Mediator instance
+    const mediator = new Mediator();
+
+    // Create a new Listings instance and register it with the mediator
+    const listings = new Listings(mediator);
+    mediator.register(listings);
+
+    // Call showListings when the page loads
+    document.addEventListener("DOMContentLoaded", () => {
+      listings.showListings();
+    });
+
+    fetch("/balance")
+      .then((response) => response.json())
+      .then((balance) => {
+        document.getElementById("balance").textContent += balance;
+      });
+  </script>
+
+  <style>
+    table.minimalistBlack {
+      font-family: "Arial Black", Gadget, sans-serif;
+      text-align: center;
+      border-collapse: collapse;
+      justify-content: center;
+      width: 100%;
+      background: white;
+      outline: 2px solid black;
+      margin: 0 auto;
+      margin-bottom: 0px;
     }
 
-
-    // Gets Reviews to display
-    async function getReviews() {
-        const params = new URLSearchParams(window.location.search)
-        let listingID = params.get('listingID');
-
-        // GET reservations json for listing
-        let response = await fetch(`/reservation/${listingID}`);
-        let allReservations = await response.json();
-
-        // Loop through list of reservations
-        for (let i = 0; i < allReservations.length; i++) {
-            let obj = allReservations[i];
-            let reviewId = obj.id;
-
-            // GET all reviews for specific reservation
-            let response = await fetch(`/review/${reviewId}`)
-            let review = await response.json();
-
-            for (let j = 0; j < review.length; j++) {
-                let obj2 = review[j]
-
-                // Temp log review --->>>!!! Eventually should display reviews on page
-                console.log(obj2.text, obj2.rating)
-            }
-        }
+    table.minimalistBlack td,
+    table.minimalistBlack th {
+      font-size: 16px;
+      color: #000000;
+      background-color: #ffffff;
+      text-align: center;
     }
 
-</script>
+    table.minimalistBlack tbody td {
+      font-size: 13px;
+      color: #000000;
+    }
+
+    table.minimalistBlack td {
+      font-size: 14px;
+      color: #000000;
+      background-color: #ffffff;
+      text-align: center;
+      border: 1px solid #000000;
+      padding: 10px;
+    }
+
+    .button-container {
+      padding-bottom: 50px;
+      margin-top: 0px;
+    }
+
+    .my-listing-button {
+      background-color: #4e4e4e;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition-duration: 0.2s;
+      margin-right: 25px;
+      width: 150px;
+    }
+
+    .my-listing-button:hover {
+      background-color: #636363;
+    }
+  </style>
+</body>
