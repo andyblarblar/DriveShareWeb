@@ -1,3 +1,20 @@
+## Builder
+
+file: searchlistings.html
+
+```mermaid
+classDiagram
+    direction BT
+    class ListingBuilder{
+        + addProperty(name, value)
+        + build()
+    }
+```
+
+We implement the builder pattern in a relatively simple way in order to dynamically build different listing objects.
+
+We can create as many ListingBuilder class objects as we need, and dyamically add values of the listing by name and value, and once finished, can have it build and return the complete object for each listing.
+
 ## Event Observer
 
 file: events.py
@@ -79,6 +96,34 @@ for that type via a map. This allows for more granular activations than the raw 
 
 Currently, these just print an email to the console, but a quick addition of a proper email server would allow actual
 email responses.
+
+## Mediator
+
+file: mylistings.html
+
+```mermaid
+classDiagram
+    direction BT
+    class Mediator {
+        + components: object
+        + notify(component)
+        + register(sender, event)
+    }
+
+    class Listings {
+        + name: listings
+        + mediator: mediator
+        + showListings()
+    }
+
+    Listings --> Mediator
+```
+
+The Mediator pattern is implemented to mediate communication between listings and the page.
+
+We create a Mediator and Listings instance, and register it with the Mediator. Next we call showListings which will notify Mediator. Mediator will handle the message to display the listings, that now appear on page.
+
+After it displays all of the listings, the buttons on each listing handle their own functions related to their listing. The Edit Listing button also calls showListings to refresh the listing information after making changes.
 
 ## Payment Proxy
 
