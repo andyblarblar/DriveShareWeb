@@ -348,6 +348,8 @@
             // Clear any existing reviews
             reviewsContainer.innerHTML = "";
 
+            let reviewCount = 1;  // Declare a counter variable
+
             // For each reservation, fetch the reviews
             reservations.forEach((reservation) => {
                 fetch(`/review/${reservation.id}`)
@@ -357,13 +359,14 @@
                         for (let i = 0; i < reviews.length; i++) {
                             const review = reviews[i];
                             const reviewElement = document.createElement("p");
-                            reviewElement.textContent = `Review ${i + 1}:
+                            reviewElement.textContent = `Review ${reviewCount}:
                                 Reservation ID: ${review.reservation_id} ||
                                 Text: "${review.text}" ||
                                 Rating: ${review.rating} stars ||
                                 Review ID: ${review.id} ||
                                 Owner: ${review.owner}`; 
                             reviewsContainer.appendChild(reviewElement);
+                            reviewCount++;  // Increment the counter
                         }
                     })
                     .catch((error) => {
