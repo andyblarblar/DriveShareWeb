@@ -206,6 +206,9 @@
   const getList = document.getElementById("listButton");
   getList.addEventListener("click", displayListings);
 
+  // Call the function immediately after its definition
+  displayListings();
+
   // Gets & Displays Listings
   // Probably a much better way to do this.
   async function displayListings() {
