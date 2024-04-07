@@ -362,56 +362,64 @@
                     });
                 }
 
-                function viewReviews(id) {
-                  // Fetch the reviews for the listing
-                  fetch(`/review/${id}`)
+                function viewReviews(listing_id) {
+    // Fetch the reservations for the listing
+    fetch(`/reservation/${listing_id}`)
+        .then((response) => response.json())
+        .then((reservations) => {
+            // Get the reviews container
+            const reviewsContainer = document.getElementById("reviewsContainer");
+            // Clear any existing reviews
+            reviewsContainer.innerHTML = "";
+
+            // For each reservation, fetch the reviews
+            reservations.forEach((reservation) => {
+                fetch(`/review/${reservation.id}`)
                     .then((response) => response.json())
                     .then((reviews) => {
-                      // Get the reviews container
-                      const reviewsContainer =
-                        document.getElementById("reviewsContainer");
-                      // Clear any existing reviews
-                      reviewsContainer.innerHTML = "";
-
-                      // Add each review to the container
-                      for (let i = 0; i < reviews.length; i++) {
-                        const review = reviews[i];
-                        const reviewElement = document.createElement("p");
-                        reviewElement.textContent = `Review ${i + 1}:
-                Reservation ID: ${review.reservation_id}
-                Text: ${review.text}
-                Rating: ${review.rating}
-                ID: ${review.id}
-                Owner: ${review.owner}`;
-                        reviewsContainer.appendChild(reviewElement);
-                      }
-
-                      // Get the modal
-                      const modal = document.getElementById("reviewsModal");
-
-                      // Get the <span> element that closes the modal
-                      const span = document.getElementsByClassName("close")[0];
-
-                      // When the user clicks on the button, open the modal
-                      modal.style.display = "block";
-
-                      // When the user clicks on <span> (x), close the modal
-                      span.onclick = function () {
-                        modal.style.display = "none";
-                      };
-
-                      // When the user clicks anywhere outside of the modal, close it
-                      window.onclick = function (event) {
-                        if (event.target == modal) {
-                          modal.style.display = "none";
+                        // Add each review to the container
+                        for (let i = 0; i < reviews.length; i++) {
+                            const review = reviews[i];
+                            const reviewElement = document.createElement("p");
+                            reviewElement.textContent = `Review ${i + 1}:
+                                Reservation ID: ${review.reservation_id}
+                                Text: ${review.text}
+                                Rating: ${review.rating}
+                                ID: ${review.id}
+                                Owner: ${review.owner}`;
+                            reviewsContainer.appendChild(reviewElement);
                         }
-                      };
-                  
                     })
                     .catch((error) => {
-                      console.error("Error:", error);
+                        console.error("Error:", error);
                     });
+            });
+
+            // Get the modal
+            const modal = document.getElementById("reviewsModal");
+
+            // Get the <span> element that closes the modal
+            const span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on the button, open the modal
+            modal.style.display = "block";
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            };
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
                 }
+            };
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+}
 
                 function viewReservations(id) {
                   // Fetch the reservations for the listing

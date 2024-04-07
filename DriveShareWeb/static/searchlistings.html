@@ -339,27 +339,37 @@
   }
 
   function seeReviews(listing_id) {
-    // Fetch the reviews for the listing
-    fetch(`/review/${listing_id}`)
-      .then((response) => response.json())
-      .then((reviews) => {
-        // Get the reviews container
-        const reviewsContainer = document.getElementById("reviewsContainer");
-        // Clear any existing reviews
-        reviewsContainer.innerHTML = "";
+    // Fetch the reservations for the listing
+    fetch(`/reservation/${listing_id}`)
+        .then((response) => response.json())
+        .then((reservations) => {
+            // Get the reviews container
+            const reviewsContainer = document.getElementById("reviewsContainer");
+            // Clear any existing reviews
+            reviewsContainer.innerHTML = "";
 
-        // Add each review to the container
-        for (let i = 0; i < reviews.length; i++) {
-          const review = reviews[i];
-          const reviewElement = document.createElement("p");
-          reviewElement.textContent = `Review ${i + 1}:
-                Listing ID: ${review.reservation_id} ||
-                Text: "${review.text}" ||
-                Rating: ${review.rating} stars ||
-                Reservation ID: ${review.id} ||
-                Owner: ${review.owner}`; 
-          reviewsContainer.appendChild(reviewElement);
-        }
+            // For each reservation, fetch the reviews
+            reservations.forEach((reservation) => {
+                fetch(`/review/${reservation.id}`)
+                    .then((response) => response.json())
+                    .then((reviews) => {
+                        // Add each review to the container
+                        for (let i = 0; i < reviews.length; i++) {
+                            const review = reviews[i];
+                            const reviewElement = document.createElement("p");
+                            reviewElement.textContent = `Review ${i + 1}:
+                                Reservation ID: ${review.reservation_id} ||
+                                Text: "${review.text}" ||
+                                Rating: ${review.rating} stars ||
+                                Review ID: ${review.id} ||
+                                Owner: ${review.owner}`; 
+                            reviewsContainer.appendChild(reviewElement);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
+            });
 
         // Get the modal
         const modal = document.getElementById("reviewsModal");
