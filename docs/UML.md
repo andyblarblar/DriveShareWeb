@@ -4,26 +4,24 @@ file: searchlistings.html
 
 ```mermaid
 classDiagram
-    getListing <|-- displayListings
-    displayListings <|-- ListingBuilder
-    build <|-- getListing
-    ListingBuilder: +displayListings()
-    class displayListings{
-        +getListing()
-    }
-    class getListing{
-        +string model
-        +int year
-        +int mileage
-        +string location
-        +int price
-        +null date_ranges
-        +int listing_id
-        +string owner
-        +build()        
-    }
+    addProperty <|-- ListingBuilder
+
+    build <|-- addProperty
+    ListingBuilder: +addProperty(name, value)
+    ListingBuilder: +constructor()
     class build{
-        +getListing
+        return this.listing
+    }
+    class addProperty{
+        +addProperty("ID", listingData.id)
+        +addProperty("Model", listingData.model)
+        +addProperty("Year", listingData.year)
+        +addProperty("Mileage", listingData.mileage)
+        +addProperty("Location", listingData.location)
+        +addProperty("Price", "$" + listingData.price)
+        +addProperty("Dates Available", listingData.date_ranges)
+        +addProperty("Owner", listingData.owner)
+        +build()
     }
 ```
 
