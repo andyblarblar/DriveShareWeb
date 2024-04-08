@@ -4,25 +4,32 @@ file: searchlistings.html
 
 ```mermaid
 classDiagram
-    addProperty <|-- ListingBuilder
+class ListingBuilder {
+  -listing: Element
+  +constructor(): void
+  +addProperty(name: String, value: String): ListingBuilder
+  +build(): Element
+}
 
-    build <|-- addProperty
-    ListingBuilder: +addProperty(name, value)
-    ListingBuilder: +constructor()
-    class build{
-        return this.listing
-    }
-    class addProperty{
-        +addProperty("ID", listingData.id)
-        +addProperty("Model", listingData.model)
-        +addProperty("Year", listingData.year)
-        +addProperty("Mileage", listingData.mileage)
-        +addProperty("Location", listingData.location)
-        +addProperty("Price", "$" + listingData.price)
-        +addProperty("Dates Available", listingData.date_ranges)
-        +addProperty("Owner", listingData.owner)
-        +build()
-    }
+class Listing {
+  -id: Number
+  -model: String
+  -year: Number
+  -mileage: Number
+  -location: String
+  -price: Number
+  -date_ranges: Array
+  -owner: String
+}
+
+class Button {
+  -text: String
+  -class: String
+  +addEventListener(event: String, callback: Function): void
+}
+
+ListingBuilder "1" -- "1" Listing: builds
+Listing "1" -- "1..*" Button: contains
 ```
 
 We implement the builder pattern in a relatively simple way in order to dynamically build different listing objects.
