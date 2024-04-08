@@ -124,20 +124,36 @@ file: mylistings.html
 
 ```mermaid
 classDiagram
-    direction BT
-    class Mediator {
-        + components: object
-        + notify(component)
-        + register(sender, event)
-    }
+class Mediator {
+  -components: Object
+  +register(component: Object): void
+  +notify(sender: Object, event: String): void
+}
 
-    class Listings {
-        + name: listings
-        + mediator: mediator
-        + showListings()
-    }
+class Listings {
+  -name: String
+  -mediator: Mediator
+  +showListings(): void
+}
 
-    Listings --> Mediator
+class Review {
+  -reservation_id: Number
+  -text: String
+  -rating: Number
+  -id: Number
+  -owner: String
+}
+
+class Reservation {
+  -listing_id: Number
+  -start_date: Date
+  -end_date: Date
+  -id: Number
+  -owner: String
+}
+
+Mediator "1" -- "1" Listings: mediates
+Reservation "1" -- "1..*" Review: has
 ```
 
 The Mediator pattern is implemented to mediate communication between listings and the page.
