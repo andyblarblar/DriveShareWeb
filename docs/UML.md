@@ -11,6 +11,29 @@ classDiagram
     }
 ```
 
+```mermaid
+classDiagram
+    note "Search Listings Builder"
+    getListings() <|-- displayListings()
+    displayListings() <|-- ListingBuilder
+    ListingBuilder: +displayListings()
+    class displayListings(){
+        +String beakColor
+        +swim()
+        +getListing()
+    }
+    class getListing(){
+        +string model
+        +int year
+        +int mileage
+        +string location
+        +int price
+        +null date_ranges
+        +int listing_id
+        +string owner        
+    }
+```
+
 We implement the builder pattern in a relatively simple way in order to dynamically build different listing objects.
 
 We can create as many ListingBuilder class objects as we need, and dyamically add values of the listing by name and value, and once finished, can have it build and return the complete object for each listing.
