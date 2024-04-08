@@ -4,25 +4,14 @@ file: searchlistings.html
 
 ```mermaid
 classDiagram
-    direction BT
-    class ListingBuilder{
-        + addProperty(name, value)
-        + build()
-    }
-```
-
-```mermaid
-classDiagram
-    note "Search Listings Builder"
-    getListings() <|-- displayListings()
-    displayListings() <|-- ListingBuilder
+    getListing <|-- displayListings
+    displayListings <|-- ListingBuilder
+    build <|-- getListing
     ListingBuilder: +displayListings()
-    class displayListings(){
-        +String beakColor
-        +swim()
+    class displayListings{
         +getListing()
     }
-    class getListing(){
+    class getListing{
         +string model
         +int year
         +int mileage
@@ -30,7 +19,11 @@ classDiagram
         +int price
         +null date_ranges
         +int listing_id
-        +string owner        
+        +string owner
+        +build()        
+    }
+    class build{
+        +getListing
     }
 ```
 
